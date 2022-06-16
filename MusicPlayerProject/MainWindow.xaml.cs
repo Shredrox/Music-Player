@@ -9,6 +9,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Text;
 
 namespace MusicPlayerProject
 {
@@ -16,7 +19,7 @@ namespace MusicPlayerProject
     {
         //global variables
         private List<Song> songs = new List<Song>();
-        private List<Playlist> list = new List<Playlist>();
+        private List<Playlist> playlists = new List<Playlist>();
         private List<Song> favourites = new List<Song>();
         private bool sliderDrag = false;
         private int currentSongIndex = -1;
@@ -25,8 +28,6 @@ namespace MusicPlayerProject
         private bool favListOnDisplay = false;
         private string artistName = string.Empty;
         private int counter = 0;
-        private int lineCounter = 0;
-        private string path = @"C:\Users\User\source\repos\MusicPlayerProject\MusicPlayerProject\Data\SavedPlaylists.txt";
 
         public MainWindow()
         {
@@ -38,77 +39,114 @@ namespace MusicPlayerProject
             timer.Start();
         }
 
-        //draggable window
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        //loads playlists from file
+        private void LoadPlaylists()
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (!File.Exists("data"))
             {
-                this.DragMove();
+                return;
+            }
+
+            XmlSerializer mySerializer = new XmlSerializer(typeof(List<Playlist>));
+
+            using (var myFileStream = new FileStream("data", FileMode.Open))
+            {
+                playlists = (List<Playlist>)mySerializer.Deserialize(myFileStream);
+            }
+
+            foreach (Playlist playlist in playlists)
+            {
+                PlaylistsMenu.Items.Add(playlist);
+                PlaylistsMenu.SelectedValuePath = playlist.Name;
+
+                foreach (Song song in playlist.SongList)
+                {
+                    LoadSongData(song.Path, song.IsFavourite);
+                    SetSongBrush(song);
+                }
+
+                counter++;
+                songs.Clear();
             }
         }
 
-        //close button
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        //saves playlists to file
+        private void SavePlaylists()
         {
-            SavePlaylists();
-            Close();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Playlist>));
+            XmlTextWriter writer = new XmlTextWriter("data", Encoding.UTF8);
+            serializer.Serialize(writer, playlists);
+            writer.Close();
+        }
+
+        //slider timer tick
+        private void Timer_Tick(object sender, object e)
+        {
+            if ((MusicPlayer.Source != null) && MusicPlayer.NaturalDuration.HasTimeSpan && (!sliderDrag))
+            {
+                SongDuration.Minimum = 0;
+                SongDuration.Maximum = MusicPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                SongDuration.Value = MusicPlayer.Position.TotalSeconds;
+            }
         }
 
         //loads data from song metadata
-        private void LoadSongData(string path)
+        private void LoadSongData(string path, bool isFavourite)
         {
-            if (File.Exists(path))
+            if (!File.Exists(path))
             {
-                string songName;
-                if (SongTitleTagGetter(path) != String.Empty)
+                return;
+            }
+
+            string songName;
+            if (SongTitleTagGetter(path) != String.Empty)
+            {
+                songName = SongTitleTagGetter(path);
+            }
+            else
+            {
+                songName = Path.GetFileName(Path.GetFileNameWithoutExtension(path));
+            }
+
+            string songPath = Path.GetFullPath(path);
+            ArtistTagGetter(songPath);
+            string artist = artistName;
+            TagLib.File file1 = TagLib.File.Create(path);
+
+            if (file1.Tag.Pictures == null || file1.Tag.Pictures.Length == 0)
+            {
+                BitmapImage bitI = new BitmapImage();
+                bitI.BeginInit();
+                bitI.UriSource = new Uri("../../Images/songicon.png", UriKind.Relative);
+                bitI.EndInit();
+
+                if (isFavourite)
                 {
-                    songName = SongTitleTagGetter(path);
+                    favourites.Add(new Song(songName, @songPath, artist, true, bitI));
                 }
                 else
                 {
-                    songName = Path.GetFileName(Path.GetFileNameWithoutExtension(path));
+                    songs.Add(new Song(songName, @songPath, artist, false, bitI));
                 }
+            }
+            else
+            {
+                TagLib.IPicture pic1 = file1.Tag.Pictures[0];
+                MemoryStream ms1 = new MemoryStream(pic1.Data.Data);
+                ms1.Seek(0, SeekOrigin.Begin);
 
-                string songPath = Path.GetFullPath(path);
-                ArtistTagGetter(songPath);
-                string artist = artistName;
-                TagLib.File file1 = TagLib.File.Create(path);
+                BitmapImage bitmap1 = new BitmapImage();
+                bitmap1.BeginInit();
+                bitmap1.StreamSource = ms1;
+                bitmap1.EndInit();
 
-                if (file1.Tag.Pictures == null || file1.Tag.Pictures.Length == 0)
+                if (isFavourite)
                 {
-                    BitmapImage bitI = new BitmapImage();
-                    bitI.BeginInit();
-                    bitI.UriSource = new Uri("../../Images/songicon.png", UriKind.Relative);
-                    bitI.EndInit();
-
-                    if(lineCounter == 0)
-                    {
-                        favourites.Add(new Song() { Brush = bitI, SongTitle = songName, SongPath = @songPath, SongArtist = artist, IsFavourite = true });
-                    }
-                    else
-                    {
-                        songs.Add(new Song() { Brush = bitI, SongTitle = songName, SongPath = @songPath, SongArtist = artist, IsFavourite = false });
-                    }
+                    favourites.Add(new Song(songName, @songPath, artist, true, bitmap1));
                 }
                 else
                 {
-                    TagLib.IPicture pic1 = file1.Tag.Pictures[0];
-                    MemoryStream ms1 = new MemoryStream(pic1.Data.Data);
-                    ms1.Seek(0, SeekOrigin.Begin);
-
-                    BitmapImage bitmap1 = new BitmapImage();
-                    bitmap1.BeginInit();
-                    bitmap1.StreamSource = ms1;
-                    bitmap1.EndInit();
-
-                    if (lineCounter == 0)
-                    {
-                        favourites.Add(new Song() { Brush = bitmap1, SongTitle = songName, SongPath = @songPath, SongArtist = artist, IsFavourite = true });
-                    }
-                    else
-                    {
-                        songs.Add(new Song() { Brush = bitmap1, SongTitle = songName, SongPath = @songPath, SongArtist = artist, IsFavourite = false });
-                    }
+                    songs.Add(new Song(songName, @songPath, artist, false, bitmap1));
                 }
             }
         }
@@ -166,73 +204,28 @@ namespace MusicPlayerProject
             return songTitle;
         }
 
-        //loads playlists from file
-        private void LoadPlaylists()
+        private void SetSongBrush(Song song)
         {
-            string[] fileLines = File.ReadAllLines(path);
-            
-            for (int i = 0; i < fileLines.Length; i++)
+            TagLib.File file = TagLib.File.Create(song.Path);
+            BitmapImage bitmap = new BitmapImage();
+
+            if (file.Tag.Pictures == null || file.Tag.Pictures.Length == 0)
             {
-                int k = 1;
-                if (i == 0)
-                {
-                    k = 0;
-                }
-                
-                var lineContent = fileLines[i].Split('|');
-
-                while(lineContent[k] != "")
-                {
-                    LoadSongData(lineContent[k]);
-                    k++;
-                }
-                lineCounter++;
-                if (i != 0)
-                {
-                    counter++;
-
-                    list.Add(new Playlist() { PlaylistName = "Playlist " + counter, SongCount = songs.Count, SongList = songs });
-                    PlaylistsMenu.Items.Add(list[counter - 1]);
-                    PlaylistsMenu.SelectedValuePath = list[counter - 1].PlaylistName;
-                    songs = new List<Song>();
-                }
+                song.Brush = new BitmapImage(new Uri("../../Images/songicon.png", UriKind.Relative));
+                return;
             }
+
+            TagLib.IPicture pic = file.Tag.Pictures[0];
+            MemoryStream ms = new MemoryStream(pic.Data.Data);
+            ms.Seek(0, SeekOrigin.Begin);
+
+            bitmap.BeginInit();
+            bitmap.StreamSource = ms;
+            bitmap.EndInit();
+            song.Brush = bitmap;
         }
 
-        //saves playlists to file
-        private void SavePlaylists()
-        {
-            using (StreamWriter file = File.CreateText(path))
-            {
-                for (int i = 0; i < favourites.Count; i++)
-                {
-                    file.Write(favourites[i].SongPath + "|");
-                }
-                file.WriteLine();
-
-                for (int i = 0; i < PlaylistsMenu.Items.Count; i++)
-                {
-                    file.Write(PlaylistsMenu.Items[i].ToString() + "|");
-                    for (int k = 0; k < ((Playlist)PlaylistsMenu.Items[i]).SongList.Count; k++)
-                    {
-                        file.Write(((Playlist)PlaylistsMenu.Items[i]).SongList[k].SongPath + "|");
-                    }
-                    file.WriteLine();
-                }
-                file.Flush();
-            }
-        }
-
-        //slider timer tick
-        private void Timer_Tick(object sender, object e)
-        {
-            if ((MusicPlayer.Source != null) && MusicPlayer.NaturalDuration.HasTimeSpan && (!sliderDrag))
-            {
-                SongDuration.Minimum = 0;
-                SongDuration.Maximum = MusicPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-                SongDuration.Value = MusicPlayer.Position.TotalSeconds;
-            }
-        }
+        
 
         //button to load songs
         private void LoadSongsButton_Click(object sender, RoutedEventArgs e)
@@ -251,14 +244,14 @@ namespace MusicPlayerProject
 
                 foreach (string filename in musicFiles.FileNames)
                 {
-                    LoadSongData(filename);
+                    LoadSongData(filename, false);
                 }
                 counter++;
             }
             
-            list.Add(new Playlist() { PlaylistName = "Playlist " + counter, SongCount = songs.Count, SongList = songs });
-            PlaylistsMenu.Items.Add(list[counter - 1]);
-            PlaylistsMenu.SelectedValuePath = list[counter - 1].PlaylistName;
+            playlists.Add(new Playlist("Playlist " + counter, songs.Count, songs));
+            PlaylistsMenu.Items.Add(playlists[counter - 1]);
+            PlaylistsMenu.SelectedValuePath = playlists[counter - 1].Name;
 
             for (int i = 0; i < songs.Count; i++)
             {
@@ -277,8 +270,8 @@ namespace MusicPlayerProject
             {
                 Song selectedSong = (Song)Playlist.SelectedItems[0];
 
-                AlbumArtSet(selectedSong.SongPath);
-                ArtistTagGetter(selectedSong.SongPath);
+                AlbumArtSet(selectedSong.Path);
+                ArtistTagGetter(selectedSong.Path);
 
                 if (artistName != "No artist data")
                 {
@@ -289,27 +282,27 @@ namespace MusicPlayerProject
                     SongArtistName.Text = String.Empty;
                 }
 
-                if (SongTitleTagGetter(selectedSong.SongPath) != String.Empty)
+                if (SongTitleTagGetter(selectedSong.Path) != String.Empty)
                 {
-                    SongName.Text = SongTitleTagGetter(selectedSong.SongPath);
+                    SongName.Text = SongTitleTagGetter(selectedSong.Path);
                 }
                 else
                 {
-                    if (selectedSong.SongTitle.Contains('.'))
+                    if (selectedSong.Title.Contains('.'))
                     {
-                        string name = selectedSong.SongTitle.Replace(".", String.Empty).TrimStart().TrimEnd();
+                        string name = selectedSong.Title.Replace(".", String.Empty).TrimStart().TrimEnd();
                         SongName.Text = name;
                     }
                     else
                     {
-                        SongName.Text = Path.GetFileNameWithoutExtension(selectedSong.SongTitle);
+                        SongName.Text = Path.GetFileNameWithoutExtension(selectedSong.Title);
                     }
                 }
 
                 //music player
                 MusicPlayer.LoadedBehavior = MediaState.Manual;
                 MusicPlayer.UnloadedBehavior = MediaState.Manual;
-                MusicPlayer.Source = new Uri(selectedSong.SongPath);
+                MusicPlayer.Source = new Uri(selectedSong.Path);
                 MusicPlayer.Play();
 
                 PlayPauseButton.Content = FindResource("Pause");
@@ -330,7 +323,7 @@ namespace MusicPlayerProject
         {
             if (PlaylistsMenu.SelectedIndex != -1)
             {
-                PlaylistsMenu.Text = ((Playlist)PlaylistsMenu.Items[PlaylistsMenu.SelectedIndex]).PlaylistName;
+                PlaylistsMenu.Text = ((Playlist)PlaylistsMenu.Items[PlaylistsMenu.SelectedIndex]).Name;
             }
         }
 
@@ -358,7 +351,7 @@ namespace MusicPlayerProject
                 {
                     for (int k = 0; k < ((Playlist)PlaylistsMenu.Items[i]).SongList.Count; k++)
                     {
-                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == false && ((Playlist)PlaylistsMenu.Items[i]).SongList[k].SongTitle.Contains(SongName.Text))
+                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == false && ((Playlist)PlaylistsMenu.Items[i]).SongList[k].Title.Contains(SongName.Text))
                         {
                             ((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite = true;
                         }
@@ -387,7 +380,7 @@ namespace MusicPlayerProject
                 {
                     for (int k = 0; k < ((Playlist)PlaylistsMenu.Items[i]).SongList.Count; k++)
                     {
-                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == true && ((Playlist)PlaylistsMenu.Items[i]).SongList[k].SongTitle.Contains(SongName.Text))
+                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == true && ((Playlist)PlaylistsMenu.Items[i]).SongList[k].Title.Contains(SongName.Text))
                         {
                             ((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite = false;
                         }
@@ -400,7 +393,7 @@ namespace MusicPlayerProject
 
                 for (int i = 0; i < favourites.Count; i++)
                 {
-                    if (favourites[i].IsFavourite == true && favourites[i].SongTitle.Contains(SongName.Text))
+                    if (favourites[i].IsFavourite == true && favourites[i].Title.Contains(SongName.Text))
                     {
                         favourites.Remove(favourites[i]);
                     }
@@ -480,8 +473,8 @@ namespace MusicPlayerProject
             currentSongIndex++;
             if (currentSongIndex < Playlist.Items.Count)
             {
-                string path = ((Song)Playlist.Items[currentSongIndex]).SongPath;
-                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).SongTitle);
+                string path = ((Song)Playlist.Items[currentSongIndex]).Path;
+                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).Title);
 
                 AlbumArtSet(path);
                 MusicPlayer.Source = new Uri(path);
@@ -522,8 +515,8 @@ namespace MusicPlayerProject
 
             if (currentSongIndex < Playlist.Items.Count)
             {
-                string path = ((Song)Playlist.Items[currentSongIndex]).SongPath;
-                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).SongTitle);
+                string path = ((Song)Playlist.Items[currentSongIndex]).Path;
+                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).Title);
 
                 AlbumArtSet(path);
                 MusicPlayer.Source = new Uri(path);
@@ -593,8 +586,8 @@ namespace MusicPlayerProject
             {
                 Random randomNumber = new Random();
                 int randomSong = randomNumber.Next(Playlist.Items.Count);
-                string path = ((Song)Playlist.Items[randomSong]).SongPath;
-                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[randomSong]).SongTitle);
+                string path = ((Song)Playlist.Items[randomSong]).Path;
+                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[randomSong]).Title);
                 currentSongIndex = randomSong;
                 AlbumArtSet(path);
                 MusicPlayer.Source = new Uri(path);
@@ -602,8 +595,8 @@ namespace MusicPlayerProject
             }
             else if (repeatOn)
             {
-                string path = ((Song)Playlist.Items[currentSongIndex]).SongPath;
-                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).SongTitle);
+                string path = ((Song)Playlist.Items[currentSongIndex]).Path;
+                SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).Title);
                 AlbumArtSet(path);
                 MusicPlayer.Source = new Uri(path);
                 MusicPlayer.Play();
@@ -618,14 +611,30 @@ namespace MusicPlayerProject
                 currentSongIndex++;
                 if (currentSongIndex < Playlist.Items.Count)
                 {
-                    string path = ((Song)Playlist.Items[currentSongIndex]).SongPath;
-                    SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).SongTitle);
+                    string path = ((Song)Playlist.Items[currentSongIndex]).Path;
+                    SongName.Text = Path.GetFileNameWithoutExtension(((Song)Playlist.Items[currentSongIndex]).Title);
 
                     AlbumArtSet(path);
                     MusicPlayer.Source = new Uri(path);
                     MusicPlayer.Play();
                 }
             }
+        }
+
+        //draggable window
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
+        //close button
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            SavePlaylists();
+            Close();
         }
     }
 }

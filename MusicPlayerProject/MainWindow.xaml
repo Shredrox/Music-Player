@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MusicPlayerProject"
+        xmlns:local="clr-namespace:MusicPlayerProject" 
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" 
         Icon="favicon.ico"
         Height= "800" Width="600" 
@@ -32,7 +33,7 @@
         <Image x:Key="HeartFull" Source="../../Images/heartfull.png" Height="22" Width="30"/>
 
         <Style x:Name="ItemColor" x:Key="ItemColor" TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="#FF673AB7"/>
+            <Setter Property="Background" Value="#23272A "/>
         </Style>
     </Window.Resources>
  
@@ -41,7 +42,7 @@
             <materialDesign:Card.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="#121212" Offset="1"/>
-                    <GradientStop Color="DarkBlue" Offset="0"/>
+                    <GradientStop Color="#FF23272A" Offset="0"/>
                 </LinearGradientBrush>
             </materialDesign:Card.Background>
         </materialDesign:Card>
@@ -51,7 +52,7 @@
                 <materialDesign:Card.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF4124C3" Offset="1"/>
+                        <GradientStop Color="#FF23272A" Offset="1"/>
                     </LinearGradientBrush>
                 </materialDesign:Card.Background>
 
@@ -70,19 +71,20 @@
                         </Ellipse.Fill>
                     </Ellipse>
 
-                    <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" Click="LoadSongsButton_Click"/>
-                    <Button Name="FavouritesButton" Margin="15" Grid.Column="2" Width="100" Content="Favourites" Click="FavouritesButton_Click"/>
+                    <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" Click="LoadSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                    <Button Name="FavouritesButton" Margin="15" Grid.Column="2" Width="100" Content="Favourites" Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
 
                     <ComboBox ItemContainerStyle="{StaticResource ItemColor}" 
                               SelectionChanged="PlaylistsMenu_SelectionChanged" 
                               DropDownOpened="PlaylistsMenu_DropDownOpened" 
-                              Name="PlaylistsMenu" Background="#FF673AB7" 
+                              Name="PlaylistsMenu"  
                               Text="Playlists" IsEditable="True" IsReadOnly="True" 
                               Focusable="False" VerticalContentAlignment="Center" 
                               HorizontalContentAlignment="Center" Margin="15" Grid.Column="3" 
-                              Width="100" Height="35" FontSize="15" Foreground="White">
+                              Width="100" Height="35" FontSize="15" Foreground="White" 
+                              Background="#FF2C2F33" BorderBrush="#FF23272A">
                     </ComboBox>
-                    <Button Name="CloseButton" Margin="15" Grid.Column="4" Width="90" Content="Close (X)" Click="CloseButton_Click"/>
+                    <Button Name="CloseButton" Margin="15" Grid.Column="4" Width="90" Content="Close (X)" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
                 </Grid>
             </materialDesign:Card>
         </materialDesign:TransitioningContent>
@@ -91,8 +93,9 @@
             <materialDesign:Card Margin="10,603,10,10" UniformCornerRadius="20">
                 <materialDesign:Card.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                        <GradientStop Color="#FF0B0030" Offset="0"/>
-                        <GradientStop Color="#FF210091" Offset="1"/>
+                        <GradientStop Color="#FF23272A" Offset="0"/>
+                        <GradientStop Color="#FF2C2F33" Offset="1"/>
+                        <GradientStop Color="#FF23272A" Offset="0.13"/>
                     </LinearGradientBrush>
                 </materialDesign:Card.Background>
 
@@ -103,7 +106,7 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <materialDesign:Card Margin="15,0,15,0" Grid.Column="0" Height="149" Width="150" Background="#FF3A78FF">
+                    <materialDesign:Card Margin="15,0,15,0" Grid.Column="0" Height="149" Width="150" Background="#FF343940">
                         <Image Name="AlbumArt" />
                     </materialDesign:Card>
 
@@ -116,17 +119,19 @@
                                 <TextBlock Text="{Binding Path=Value, ElementName=SpeedSlider}" HorizontalAlignment="Center" Padding="3" VerticalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Bahnschrift Light" FontSize="14" Width="auto" Height="20">
                                     <TextBlock.Background>
                                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#FF002FBF"/>
-                                            <GradientStop Color="#FF264AB7" Offset="1"/>
+                                            <GradientStop Color="#23272A "/>
+                                            <GradientStop Color="#2C2F33 " Offset="1"/>
                                         </LinearGradientBrush>
                                     </TextBlock.Background>
                                 </TextBlock>
                             </materialDesign:Card>
 
-                            <Slider x:Name="SpeedSlider" Width="150" Margin="14,15,0,8" VerticalAlignment="Center" Minimum="0.5" Value="1" Maximum="2" ValueChanged="SpeedSlider_ValueChanged" TickPlacement="BottomRight"
-                                    TickFrequency="0.5" IsSnapToTickEnabled="True"/>
+                            <Slider x:Name="SpeedSlider" Width="150" Margin="14,15,0,8" VerticalAlignment="Center" Minimum="0.5" Value="1" Maximum="2" 
+                                    ValueChanged="SpeedSlider_ValueChanged" TickPlacement="BottomRight"
+                                    TickFrequency="0.5" IsSnapToTickEnabled="True"
+                                    BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
 
-                            <Button Name="FavouriteButton" Margin="10,0,0,0" Width="60" Height="30" Click="FavouriteButton_Click">
+                            <Button Name="FavouriteButton" Margin="10,0,0,0" Width="60" Height="30" Click="FavouriteButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
                                 <DynamicResource ResourceKey="HeartOutline"/>
                             </Button>
                         </StackPanel>
@@ -138,33 +143,35 @@
 
                         <TextBlock Name="SongTimer" Text="00:00" Foreground="#DDFFFFFF" FontSize="14" FontFamily="Fugaz One"/>
 
-                        <Slider Name="SongDuration" MouseDown="SongDuration_MouseDown" Thumb.DragStarted="SongDuration_DragStarted" Thumb.DragCompleted="SongDuration_DragCompleted"  ValueChanged="SongDuration_ValueChanged" Margin="0,0,10,10" Minimum="0" Maximum="100">
-
+                        <Slider Name="SongDuration" MouseDown="SongDuration_MouseDown" Thumb.DragStarted="SongDuration_DragStarted" 
+                                Thumb.DragCompleted="SongDuration_DragCompleted"  ValueChanged="SongDuration_ValueChanged" 
+                                Margin="0,0,10,10" Minimum="0" Maximum="100"
+                                Background="#FF2C2F33" BorderBrush="#FF23272A" Foreground="#FFFFCC00">
                         </Slider>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button Name="RepeatButton" Height="26" Width="60" Click="RepeatButton_Click">
+                            <Button Name="RepeatButton" Height="26" Width="60" Click="RepeatButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
                                 <DynamicResource ResourceKey="Repeat"/>
                             </Button>
-                            <Button Name="SkipPreviousButton" Margin="10,0,10,0" Width="60" Click="SkipPreviousButton_Click">
+                            <Button Name="SkipPreviousButton" Margin="10,0,10,0" Width="60" Click="SkipPreviousButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
                                 <DynamicResource ResourceKey="SkipPrevious"/>
                             </Button>
 
-                            <Button Name="PlayPauseButton" Height="36" Width="60" Click="PlayPauseButton_Click">
+                            <Button Name="PlayPauseButton" Height="36" Width="60" Click="PlayPauseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
                                 <DynamicResource ResourceKey="Pause"/>
                             </Button>
-                            <Button Name="SkipNextButton" Margin="10,0,10,0" Width="60" Click="SkipNextButton_Click">
+                            <Button Name="SkipNextButton" Margin="10,0,10,0" Width="60" Click="SkipNextButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
                                 <DynamicResource ResourceKey="SkipNext"/>
                             </Button>
 
-                            <Button Name="ShuffleButton" Height="26" Width="60" Click="ShuffleButton_Click">
+                            <Button Name="ShuffleButton" Height="26" Width="60" Click="ShuffleButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
                                 <DynamicResource ResourceKey="Shuffle"/>
                             </Button>
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2" Width="45" Orientation="Vertical">
-                        <Slider Name="VolumeSlider" Value="0.5" Margin="10,15,10,10" Minimum="0" Maximum="1" Orientation="Vertical" Height="120" ValueChanged="Slider_ValueChanged"/>
+                        <Slider Name="VolumeSlider" Value="0.5" Margin="10,15,10,10" Minimum="0" Maximum="1" Orientation="Vertical" Height="120" ValueChanged="Slider_ValueChanged" BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
                         <materialDesign:PackIcon Margin="10,0,10,0" Kind="Audio" Foreground="#DDFFFFFF" Height="25" Width="25"/>
                     </StackPanel>
                 </Grid>
@@ -175,8 +182,8 @@
             <materialDesign:Card Margin="10,80,10,202" UniformCornerRadius="20">
                 <materialDesign:Card.Background>
                     <LinearGradientBrush EndPoint="0,1.5" StartPoint="0.5,0">
-                        <GradientStop Color="#FF1C39BD" Offset="0"/>
-                        <GradientStop Color="Black" Offset="0.943"/>
+                        <GradientStop Color="#FF2C2F33" Offset="0"/>
+                        <GradientStop Color="Black" Offset="0.885"/>
                     </LinearGradientBrush>
                 </materialDesign:Card.Background>
                 <Grid Margin="5">
@@ -200,10 +207,10 @@
                                                 </Ellipse>
                                                 <TextBlock Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20">
                                                     <Hyperlink NavigateUri="{Binding Path=Text, ElementName=Link}" RequestNavigate="Hyperlink_RequestNavigate">
-                                                        <TextBlock Text="{Binding SongArtist}"/>
+                                                        <TextBlock Text="{Binding Artist}"/>
                                                     </Hyperlink>
                                                 </TextBlock>
-                                                <TextBlock Text="{Binding SongTitle}" Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20"/>
+                                                <TextBlock Text="{Binding Title}" Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20"/>
                                             </StackPanel>
                                             <materialDesign:PackIcon Margin="0,5,0,0" Kind="PlayCircle" VerticalAlignment="Center" Foreground="White" DockPanel.Dock="Right"/>
                                         </DockPanel>

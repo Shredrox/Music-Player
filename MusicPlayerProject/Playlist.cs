@@ -1,17 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace MusicPlayerProject
 {
+    [XmlInclude(typeof(Song))]
     public class Playlist
     {
-        private string playlistName;
-        private int songCount;
-        private List<Song> songList;
+        public string Name { get; set; }
+        public int SongCount { get; set; }
+        public List<Song> SongList { get; set; }
 
-        public string PlaylistName { get { return playlistName; } set { playlistName = value; } }
-        public int SongCount { get { return songCount; } set { songCount = value;} }
-        public List<Song> SongList { get { return songList; } set { songList = value; } }
+        public Playlist(string name, int songCount, List<Song> songList)
+        {
+            Name = name;
+            SongCount = songCount;
+            SongList = songList;
+        }
 
+        //constructor for xml serialization
         public Playlist()
         {
 
@@ -19,7 +26,7 @@ namespace MusicPlayerProject
 
         public override string ToString()
         {
-            return playlistName;
+            return Name;
         }
     }
 }

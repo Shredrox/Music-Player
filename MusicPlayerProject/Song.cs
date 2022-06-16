@@ -1,22 +1,27 @@
-﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace MusicPlayerProject
 {
     public class Song
     {
-        private string songTitle = "";
-        private string songPath = "";
-        private string songArtist = "";
-        private bool isFavourite;
-        private ImageSource brush;
+        public string Title  { get; set; }
+        public string Path { get; set; }
+        public string Artist { get; set; }
+        public bool IsFavourite { get; set; }
+        [XmlIgnore]
+        public ImageSource Brush { get; set; }
+        
+        public Song(string title, string path, string artist, bool favourite, ImageSource brush)
+        {
+            Title = title;
+            Path = path;
+            Artist = artist;
+            IsFavourite = favourite;
+            Brush = brush;
+        }
 
-        public string SongTitle { get => songTitle; set => songTitle = value; }
-        public string SongPath { get => songPath; set => songPath = value; }
-        public ImageSource Brush { get => brush; set => brush = value; }
-        public String SongArtist { get => songArtist; set => songArtist = value; }
-        public bool IsFavourite { get => isFavourite; set => isFavourite = value; }
-
+        //constructor for xml serialization
         public Song()
         {
 
