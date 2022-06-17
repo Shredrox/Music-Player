@@ -33,6 +33,7 @@ namespace MusicPlayerProject
         {
             InitializeComponent();
             LoadPlaylists();
+
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += Timer_Tick;
@@ -609,18 +610,32 @@ namespace MusicPlayerProject
             Close();
         }
 
-        private void PlaylistsListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        private void PlaylistsListBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            favListOnDisplay = false;
-            if (PlaylistsListBox.SelectedItem != null)
+            if(PlaylistsListBox.SelectedItem == null)
             {
-                Playlist.Items.Clear();
-                for (int i = 0; i < ((Playlist)PlaylistsListBox.Items[PlaylistsListBox.SelectedIndex]).SongList.Count; i++)
-                {
-                    Playlist.Items.Add(((Playlist)PlaylistsListBox.Items[PlaylistsListBox.SelectedIndex]).SongList[i]);
-                }
-                Playlist.Items.Refresh();
+                return;
             }
+
+            favListOnDisplay = false;
+            Playlist.Items.Clear();
+            for (int i = 0; i < ((Playlist)PlaylistsListBox.Items[PlaylistsListBox.SelectedIndex]).SongList.Count; i++)
+            {
+                Playlist.Items.Add(((Playlist)PlaylistsListBox.Items[PlaylistsListBox.SelectedIndex]).SongList[i]);
+            }
+            Playlist.Items.Refresh();
         }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if(PlaylistsListBox.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            PlaylistsListBox.Items.RemoveAt(PlaylistsListBox.SelectedIndex);
+            PlaylistsListBox.Items.Refresh();
+        }
+
     }
 }

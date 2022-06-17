@@ -31,10 +31,6 @@
         <Image x:Key="Repeat2" Source="../../Images/repeat2.png" Height="22" Width="30"/>
         <Image x:Key="HeartOutline" Source="../../Images/heartoutline.png" Height="22" Width="30"/>
         <Image x:Key="HeartFull" Source="../../Images/heartfull.png" Height="22" Width="30"/>
-
-        <Style x:Name="ItemColor" x:Key="ItemColor" TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="#23272A "/>
-        </Style>
     </Window.Resources>
 
     <Border BorderBrush="White" BorderThickness="1" CornerRadius="8">
@@ -102,11 +98,52 @@
                         <StackPanel Orientation="Vertical">
                             <Button Name="CreatePlaylistButton" Content="Create Playlist" Margin="0,10,0,0" HorizontalAlignment="Center" Width="122" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
                             <TextBlock Text="Playlists" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Earth Orbiter"/>
-                            <ListBox Name="PlaylistsListBox" Width="230" Height="400" Margin="10" Foreground="#DDFFFFFF" MouseUp="PlaylistsListBox_MouseUp">
+                            <ListBox Name="PlaylistsListBox" Width="185" Height="400" Margin="10" Foreground="#DDFFFFFF" MouseLeftButtonUp="PlaylistsListBox_MouseLeftButtonUp">
+                                <ListBox.Resources>
+                                    <Style x:Key="DeleteItemContextMenuStyle" TargetType="MenuItem">
+                                        <EventSetter Event="Click" Handler="DeleteMenuItem_Click"/>
+                                    </Style>
+                                </ListBox.Resources>
 
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <ContextMenu.Style>
+                                                        <Style TargetType="{x:Type ContextMenu}">
+                                                            <Setter Property="SnapsToDevicePixels" Value="True" />
+                                                            <Setter Property="OverridesDefaultStyle" Value="True" />
+                                                            <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+                                                            <Setter Property="HasDropShadow" Value="True" />
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="Background" Value="#FF2C2F33"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                                                                        <Border x:Name="Border" Background="#FF2C2F33" BorderThickness="1">
+                                                                            <ItemsPresenter />
+                                                                        </Border>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </ContextMenu.Style>
+
+                                                    <MenuItem Header="Delete" Style="{StaticResource DeleteItemContextMenuStyle}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Padding" Value="10"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Foreground" Value="#439cef" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
                             </ListBox>
                         </StackPanel>
-                        
                     </materialDesign:Card>
                 </materialDesign:TransitioningContent>
                 
@@ -195,7 +232,7 @@
                                     <Slider x:Name="SpeedSlider" Width="150" Margin="14,15,0,8" VerticalAlignment="Center" Minimum="0.5" Value="1" Maximum="2" 
                                     ValueChanged="SpeedSlider_ValueChanged" TickPlacement="BottomRight"
                                     TickFrequency="0.5" IsSnapToTickEnabled="True"
-                                    BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
+                                    BorderBrush="#FF23272A" Foreground="#2F7AE5"/>
 
                                     <Button Name="FavouriteButton" Margin="17,0,0,0" Width="60" Height="30" Click="FavouriteButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
                                         <DynamicResource ResourceKey="HeartOutline"/>
@@ -212,7 +249,7 @@
                                 <Slider Name="SongDuration" Width="360" HorizontalAlignment="Center" MouseDown="SongDuration_MouseDown" Thumb.DragStarted="SongDuration_DragStarted" 
                                     Thumb.DragCompleted="SongDuration_DragCompleted"  ValueChanged="SongDuration_ValueChanged" 
                                     Margin="0,0,0,10" Minimum="0" Maximum="100"
-                                    Background="#FF2C2F33" BorderBrush="#FF23272A" Foreground="#FFFFCC00">
+                                    Background="#FF2C2F33" BorderBrush="#FF23272A" Foreground="#2F7AE5">
                                 </Slider>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -237,7 +274,8 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Width="65" Height="220" VerticalAlignment="Center" Margin="10,10,10,10" Orientation="Vertical">
-                                <Slider Name="VolumeSlider" Value="0.5" HorizontalAlignment="Center" Margin="15,22,15,10" Minimum="0" Maximum="1" Orientation="Vertical" Height="160" ValueChanged="Slider_ValueChanged" BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
+                                <Slider Name="VolumeSlider" Value="0.5" HorizontalAlignment="Center" Margin="15,22,15,10" Minimum="0" Maximum="1" Orientation="Vertical" 
+                                        Height="160" ValueChanged="Slider_ValueChanged" BorderBrush="#FF23272A" Foreground="#2F7AE5"/>
                                 <materialDesign:PackIcon HorizontalAlignment="Center" Kind="Audio" Foreground="#DDFFFFFF" Height="25" Width="25"/>
                             </StackPanel>
                         </Grid>
