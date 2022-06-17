@@ -33,6 +33,12 @@ namespace MusicPlayerProject
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
+            if(NameEditBox.Text == String.Empty)
+            {
+                MessageBox.Show("Enter a name for the playlist");
+                return;
+            }
+
             editedPlaylist.Name = NameEditBox.Text;
             DialogResult = true;
         }

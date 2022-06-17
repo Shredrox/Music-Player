@@ -97,6 +97,16 @@ namespace MusicPlayerProject
 
         private void CreatePlaylistButton_Click(object sender, RoutedEventArgs e)
         {
+            if(NewPlaylistName.Text == String.Empty)
+            {
+                MessageBox.Show("Enter a name for the new playlist.");
+                return;
+            }
+            else if(newSongList.Count == 0){
+                MessageBox.Show("No songs loaded. Add songs to create the new playlist.");
+                return;
+            }
+
             newPlaylist = new Playlist(NewPlaylistName.Text, newSongList.Count, newSongList);
 
             DialogResult = true;
