@@ -27,6 +27,7 @@ namespace MusicPlayerProject
         private bool repeatOn = false;
         private bool favListOnDisplay = false;
         private bool loadedPlaylist = false;
+        private bool songsLoaded = false;
         private string artistName = string.Empty;
         private Song selectedSong;
 
@@ -246,6 +247,7 @@ namespace MusicPlayerProject
                 }
             }
 
+            songsLoaded = true;
             Playlist.Items.Refresh();
         }
 
@@ -381,6 +383,7 @@ namespace MusicPlayerProject
             }
             Playlist.Items.Refresh();
             loadedPlaylist = false;
+            songsLoaded = false;
             PlaylistsListBox.SelectedItem = null;
             CurrentPlaylistText.Text = "Favourites";
         }
@@ -605,12 +608,13 @@ namespace MusicPlayerProject
             }
             Playlist.Items.Refresh();
             loadedPlaylist = true;
+            songsLoaded = false;
             CurrentPlaylistText.Text = "Current Playlist: " + ((Playlist)PlaylistsListBox.SelectedItem).Name;
         }
 
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if(PlaylistsListBox.SelectedIndex == -1)
+            if(PlaylistsListBox.SelectedIndex == -1 || PlaylistsListBox.SelectedItem == null)
             {
                 return;
             }
@@ -655,6 +659,20 @@ namespace MusicPlayerProject
 
         private void CreatePlaylistButton_Click(object sender, RoutedEventArgs e)
         {
+            if(songsLoaded && !loadedPlaylist)
+            {
+                if(MessageBox.Show("Do you want to create a playlist from the loaded songs?", "Creating Playlist",
+                    MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    var newPlaylist = new Playlist("New Playlist", loadedSongsList.Count, loadedSongsList);
+
+                    playlists.Add(newPlaylist);
+                    PlaylistsListBox.Items.Add(newPlaylist);
+                    PlaylistsListBox.Items.Refresh();
+                }
+                return;
+            }
+
             CreatePlaylistWindow createPlaylistWindow = new CreatePlaylistWindow();
             createPlaylistWindow.ShowDialog();
 
@@ -682,6 +700,7 @@ namespace MusicPlayerProject
             Playlist.Items.Refresh();
 
             PlaylistsListBox.SelectedItem = null;
+            songsLoaded = true;
             loadedPlaylist = false;
             CurrentPlaylistText.Text = "Loaded Songs";
         }
