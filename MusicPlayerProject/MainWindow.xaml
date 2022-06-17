@@ -78,8 +78,15 @@
                                 </Ellipse.Fill>
                             </Ellipse>
 
-                            <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" Click="LoadSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
-                            <Button Name="FavouritesButton" Margin="15" Grid.Column="2" Width="110" Content="Favourites" Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" 
+                                    Click="LoadSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+
+
+                            <Button x:Name="AddSongsButton" Margin="10" Grid.Column="2" Width="110" Content="Add Songs" 
+                                    Click="AddSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+
+                            <Button Name="FavouritesButton" Margin="15" Grid.Column="3" Width="110" Content="Favourites" 
+                                    Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
 
                             <Button Name="CloseButton" Margin="15" Grid.Column="4" Width="110" HorizontalAlignment="Center" Content="Close (X)" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
                         </Grid>
@@ -102,6 +109,9 @@
                                 <ListBox.Resources>
                                     <Style x:Key="DeleteItemContextMenuStyle" TargetType="MenuItem">
                                         <EventSetter Event="Click" Handler="DeleteMenuItem_Click"/>
+                                    </Style>
+                                    <Style x:Key="RenameItemContextMenuStyle" TargetType="MenuItem">
+                                        <EventSetter Event="Click" Handler="RenameMenuItem_Click"/>
                                     </Style>
                                 </ListBox.Resources>
 
@@ -131,6 +141,7 @@
                                                     </ContextMenu.Style>
 
                                                     <MenuItem Header="Delete" Style="{StaticResource DeleteItemContextMenuStyle}"/>
+                                                    <MenuItem Header="Rename" Style="{StaticResource RenameItemContextMenuStyle}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>

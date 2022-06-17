@@ -633,9 +633,50 @@ namespace MusicPlayerProject
                 return;
             }
 
+            playlists.RemoveAt(PlaylistsListBox.SelectedIndex);
             PlaylistsListBox.Items.RemoveAt(PlaylistsListBox.SelectedIndex);
             PlaylistsListBox.Items.Refresh();
         }
 
+        private void RenameMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            EditPlaylistWindow editPlaylistWindow = new EditPlaylistWindow((Playlist)PlaylistsListBox.SelectedItem);
+            editPlaylistWindow.ShowDialog();
+
+            PlaylistsListBox.Items.Refresh();
+        }
+
+        private void AddSongsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(Playlist.Items.Count == 0)
+            {
+                MessageBox.Show("Load songs or a playlist.");
+                return;
+            }
+
+            OpenFileDialog musicFiles = new OpenFileDialog();
+            musicFiles.Filter = "MUSIC-Files|*.mp3;*.wav;*.flac";
+            musicFiles.Multiselect = true;
+            musicFiles.CheckFileExists = true;
+
+            if (musicFiles.ShowDialog() == true)
+            {
+                songs.Clear();
+
+                foreach (string filename in musicFiles.FileNames)
+                {
+                    LoadSongData(filename, false);
+                }
+            }
+
+            foreach(Song song in songs)
+            {
+                Playlist.Items.Add(song);
+                ((Playlist)PlaylistsListBox.SelectedItem).SongList.Add(song);
+            }
+
+            songs.Clear();
+            Playlist.Items.Refresh();
+        }
     }
 }
