@@ -27,7 +27,7 @@ namespace MusicPlayerProject
         private bool repeatOn = false;
         private bool favListOnDisplay = false;
         private string artistName = string.Empty;
-        private int counter = 0;
+        private Song selectedSong;
 
         public MainWindow()
         {
@@ -61,12 +61,13 @@ namespace MusicPlayerProject
 
                 foreach (Song song in playlist.SongList)
                 {
-                    LoadSongData(song.Path, song.IsFavourite);
                     SetSongBrush(song);
-                }
 
-                counter++;
-                songs.Clear();
+                    if(song.IsFavourite == true)
+                    {
+                        favourites.Add(song);
+                    }
+                }
             }
         }
 
@@ -322,8 +323,11 @@ namespace MusicPlayerProject
                 .Select(s => s.ID)
                 .ToList();
 
-            var selectedSong = (Song)Playlist.SelectedItem;
-
+            if(Playlist.SelectedItem != null)
+            {
+                selectedSong = (Song)Playlist.SelectedItem;
+            }
+            
             if (FavouriteButton.Content == FindResource("HeartOutline"))
             {
                 for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
@@ -331,26 +335,14 @@ namespace MusicPlayerProject
                     for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
                     {
                         if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == false && 
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID)
-                        {
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = true;
-                        }
-                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == true && 
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID &&
                             !favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
                         {
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = true;
                             favourites.Add(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
+                            break;
                         }
                     }
-                }
-
-                if(favListOnDisplay == true)
-                {
-                    Playlist.Items.Clear();
-                    for (int i = 0; i < favourites.Count; i++)
-                    {
-                        Playlist.Items.Add(favourites[i]);
-                    }
-                    Playlist.Items.Refresh();
                 }
                 
                 FavouriteButton.Content = FindResource("HeartFull");
@@ -362,37 +354,27 @@ namespace MusicPlayerProject
                     for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
                     {
                         if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == true &&
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID)
-                        {
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = false;
-                        }
-                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == false && 
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID &&
                             favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
                         {
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = false;
                             favourites.Remove(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
+                            break;
                         }
                     }
-                }
-
-                for (int i = 0; i < favourites.Count; i++)
-                {
-                    if (favourites[i].IsFavourite == true && favourites[i].ID == selectedSong.ID)
-                    {
-                        favourites.Remove(favourites[i]);
-                    }
-                }
-
-                if (favListOnDisplay == true)
-                {
-                    Playlist.Items.Clear();
-                    for (int i = 0; i < favourites.Count; i++)
-                    {
-                        Playlist.Items.Add(favourites[i]);
-                    }
-                    Playlist.Items.Refresh();
                 }
 
                 FavouriteButton.Content = FindResource("HeartOutline");
+            }
+
+            if (favListOnDisplay == true)
+            {
+                Playlist.Items.Clear();
+                for (int i = 0; i < favourites.Count; i++)
+                {
+                    Playlist.Items.Add(favourites[i]);
+                }
+                Playlist.Items.Refresh();
             }
         }
 
