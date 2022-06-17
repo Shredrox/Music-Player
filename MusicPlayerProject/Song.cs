@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace MusicPlayerProject
@@ -9,6 +10,7 @@ namespace MusicPlayerProject
         public string Path { get; set; }
         public string Artist { get; set; }
         public bool IsFavourite { get; set; }
+        public Guid ID { get; set; }    
         [XmlIgnore]
         public ImageSource Brush { get; set; }
         
@@ -19,12 +21,13 @@ namespace MusicPlayerProject
             Artist = artist;
             IsFavourite = favourite;
             Brush = brush;
+            ID = Guid.NewGuid();
         }
 
         //constructor for xml serialization
-        public Song()
+        private Song()
         {
-
+            ID = Guid.NewGuid();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace MusicPlayerProject
         }
 
         //constructor for xml serialization
-        public Playlist()
+        private Playlist()
         {
 
         }

@@ -248,11 +248,7 @@ namespace MusicPlayerProject
                 {
                     LoadSongData(filename, false);
                 }
-                //counter++;
             }
-            
-           // playlists.Add(new Playlist("Playlist " + counter, songs.Count, songs));
-            //PlaylistsListBox.Items.Add(playlists[counter - 1]);
 
             for (int i = 0; i < songs.Count; i++)
             {
@@ -322,6 +318,12 @@ namespace MusicPlayerProject
         //adds a song to favourites
         private void FavouriteButton_Click(object sender, RoutedEventArgs e)
         {
+            var favouriteSongsIDs = favourites
+                .Select(s => s.ID)
+                .ToList();
+
+            var selectedSong = (Song)Playlist.SelectedItem;
+
             if (FavouriteButton.Content == FindResource("HeartOutline"))
             {
                 for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
@@ -329,12 +331,12 @@ namespace MusicPlayerProject
                     for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
                     {
                         if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == false && 
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].Title.Contains(SongName.Text))
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID)
                         {
                             ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = true;
                         }
                         if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == true && 
-                            !favourites.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k]))
+                            !favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
                         {
                             favourites.Add(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
                         }
@@ -359,13 +361,13 @@ namespace MusicPlayerProject
                 {
                     for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
                     {
-                        var song = ((Playlist)PlaylistsListBox.Items[i]).SongList[k];
-
-                        if (song.IsFavourite == true && song.Title.Contains(SongName.Text))
+                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == true &&
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID)
                         {
                             ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = false;
                         }
-                        if (song.IsFavourite == false && favourites.Contains(song))
+                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == false && 
+                            favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
                         {
                             favourites.Remove(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
                         }
@@ -374,7 +376,7 @@ namespace MusicPlayerProject
 
                 for (int i = 0; i < favourites.Count; i++)
                 {
-                    if (favourites[i].IsFavourite == true && favourites[i].Title.Contains(SongName.Text))
+                    if (favourites[i].IsFavourite == true && favourites[i].ID == selectedSong.ID)
                     {
                         favourites.Remove(favourites[i]);
                     }
