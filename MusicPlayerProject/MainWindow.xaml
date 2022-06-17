@@ -66,10 +66,11 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="85"/>
-                                <ColumnDefinition Width="171"/>
-                                <ColumnDefinition Width="171"/>
-                                <ColumnDefinition Width="171"/>
-                                <ColumnDefinition Width="171"/>
+                                <ColumnDefinition Width="141"/>
+                                <ColumnDefinition Width="161"/>
+                                <ColumnDefinition Width="141"/>
+                                <ColumnDefinition Width="141"/>
+                                <ColumnDefinition Width="141"/>
                             </Grid.ColumnDefinitions>
 
                             <Ellipse Margin="5,5,5,5" Grid.Column="0" Width="55">
@@ -81,14 +82,16 @@
                             <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" 
                                     Click="LoadSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
 
-
-                            <Button x:Name="AddSongsButton" Margin="10" Grid.Column="2" Width="110" Content="Add Songs" 
+                            <Button x:Name="LoadedSongsButton" Margin="10" Grid.Column="2" Width="130" Content="Loaded Songs" 
+                                    Click="LoadedSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            
+                            <Button x:Name="AddSongsButton" Margin="10" Grid.Column="3" Width="110" Content="Add Songs" 
                                     Click="AddSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
 
-                            <Button Name="FavouritesButton" Margin="15" Grid.Column="3" Width="110" Content="Favourites" 
+                            <Button Name="FavouritesButton" Margin="15" Grid.Column="4" Width="110" Content="Favourites" 
                                     Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
 
-                            <Button Name="CloseButton" Margin="15" Grid.Column="4" Width="110" HorizontalAlignment="Center" Content="Close (X)" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button Name="CloseButton" Margin="15" Grid.Column="5" Width="110" HorizontalAlignment="Center" Content="Close (X)" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
                         </Grid>
                     </materialDesign:Card>
                 </materialDesign:TransitioningContent>
@@ -105,7 +108,7 @@
                         <StackPanel Orientation="Vertical">
                             <Button Name="CreatePlaylistButton" Content="Create Playlist" Margin="0,10,0,0" HorizontalAlignment="Center" 
                                     Width="122" Background="#FF2C2F33" BorderBrush="#FF23272A" Click="CreatePlaylistButton_Click"/>
-                            <TextBlock Text="Playlists" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Earth Orbiter"/>
+                            <TextBlock Text="Playlists" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Lato Light"/>
                             <ListBox Name="PlaylistsListBox" Width="185" Height="400" Margin="10" Foreground="#DDFFFFFF" MouseLeftButtonUp="PlaylistsListBox_MouseLeftButtonUp">
                                 <ListBox.Resources>
                                     <Style x:Key="DeleteItemContextMenuStyle" TargetType="MenuItem">
@@ -173,7 +176,7 @@
                                 <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="Current Playlist" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Earth Orbiter"/>
+                            <TextBlock Name="CurrentPlaylistText" Text="Current Playlist" Height="30" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Lato Light" />
                             <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
                                 <ListBox Name="Playlist" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseDoubleClick="Playlist_MouseDoubleClick">
                                     <ListBox.ItemTemplate>

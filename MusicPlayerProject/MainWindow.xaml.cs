@@ -18,7 +18,7 @@ namespace MusicPlayerProject
     public partial class MainWindow : Window
     {
         //global variables
-        private List<Song> songs = new List<Song>();
+        private List<Song> loadedSongsList = new List<Song>();
         private List<Playlist> playlists = new List<Playlist>();
         private List<Song> favourites = new List<Song>();
         private bool sliderDrag = false;
@@ -26,6 +26,7 @@ namespace MusicPlayerProject
         private bool shuffleOn = false;
         private bool repeatOn = false;
         private bool favListOnDisplay = false;
+        private bool loadedPlaylist = false;
         private string artistName = string.Empty;
         private Song selectedSong;
 
@@ -122,11 +123,11 @@ namespace MusicPlayerProject
         }
 
         //loads data from song metadata
-        private void LoadSongData(string path, bool isFavourite)
+        private Song LoadSongData(string path)
         {
             if (!File.Exists(path))
             {
-                return;
+                return null;
             }
 
             string songName = Path.GetFileName(Path.GetFileNameWithoutExtension(path));
@@ -155,14 +156,7 @@ namespace MusicPlayerProject
                 bitmap = CreateImageFromStream(ms);
             }
 
-            if (isFavourite)
-            {
-                favourites.Add(new Song(songName, @songPath, artist, true, bitmap));
-            }
-            else
-            {
-                songs.Add(new Song(songName, @songPath, artist, false, bitmap));
-            }
+            return new Song(songName, @songPath, artist, false, bitmap);
         }
 
         //sets the album art from song metadata
@@ -247,16 +241,11 @@ namespace MusicPlayerProject
 
                 foreach (string filename in musicFiles.FileNames)
                 {
-                    LoadSongData(filename, false);
+                    Playlist.Items.Add(LoadSongData(filename));
+                    loadedSongsList.Add(LoadSongData(filename));
                 }
             }
 
-            for (int i = 0; i < songs.Count; i++)
-            {
-                Playlist.Items.Add(songs[i]);
-            }
-            
-            songs = new List<Song>();
             Playlist.Items.Refresh();
         }
 
@@ -391,6 +380,9 @@ namespace MusicPlayerProject
                 Playlist.Items.Add(favourites[i]);
             }
             Playlist.Items.Refresh();
+            loadedPlaylist = false;
+            PlaylistsListBox.SelectedItem = null;
+            CurrentPlaylistText.Text = "Favourites";
         }
 
         //artist links 
@@ -612,6 +604,8 @@ namespace MusicPlayerProject
                 Playlist.Items.Add(((Playlist)PlaylistsListBox.Items[PlaylistsListBox.SelectedIndex]).SongList[i]);
             }
             Playlist.Items.Refresh();
+            loadedPlaylist = true;
+            CurrentPlaylistText.Text = "Current Playlist: " + ((Playlist)PlaylistsListBox.SelectedItem).Name;
         }
 
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
@@ -636,9 +630,9 @@ namespace MusicPlayerProject
 
         private void AddSongsButton_Click(object sender, RoutedEventArgs e)
         {
-            if(Playlist.Items.Count == 0)
+            if (Playlist.Items.Count == 0 || PlaylistsListBox.SelectedItem == null || loadedPlaylist == false)
             {
-                MessageBox.Show("Load songs or a playlist.");
+                MessageBox.Show("Load a playlist.");
                 return;
             }
 
@@ -649,21 +643,13 @@ namespace MusicPlayerProject
 
             if (musicFiles.ShowDialog() == true)
             {
-                songs.Clear();
-
                 foreach (string filename in musicFiles.FileNames)
                 {
-                    LoadSongData(filename, false);
+                    Playlist.Items.Add(LoadSongData(filename));
+                    ((Playlist)PlaylistsListBox.SelectedItem).SongList.Add(LoadSongData(filename));
                 }
             }
 
-            foreach(Song song in songs)
-            {
-                Playlist.Items.Add(song);
-                ((Playlist)PlaylistsListBox.SelectedItem).SongList.Add(song);
-            }
-
-            songs.Clear();
             Playlist.Items.Refresh();
         }
 
@@ -678,6 +664,26 @@ namespace MusicPlayerProject
                 PlaylistsListBox.Items.Add(createPlaylistWindow.newPlaylist);
                 PlaylistsListBox.Items.Refresh();
             }
+        }
+
+        private void LoadedSongsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(loadedSongsList.Count == 0)
+            {
+                MessageBox.Show("No loaded songs. Load songs to use this feature.");
+                return;
+            }
+
+            Playlist.Items.Clear();
+            foreach(Song song in loadedSongsList)
+            {
+                Playlist.Items.Add(song);
+            }
+            Playlist.Items.Refresh();
+
+            PlaylistsListBox.SelectedItem = null;
+            loadedPlaylist = false;
+            CurrentPlaylistText.Text = "Loaded Songs";
         }
     }
 }
