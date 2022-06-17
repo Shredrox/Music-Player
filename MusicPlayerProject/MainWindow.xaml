@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" 
         Icon="favicon.ico"
-        Height= "800" Width="600" 
+        Height= "870" Width="850" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -17,7 +17,7 @@
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}" 
         WindowStartupLocation="CenterScreen" 
-        ResizeMode="NoResize" Title="Music App" WindowStyle="None" 
+        ResizeMode="NoResize"  Title="Music App" WindowStyle="None"
         AllowsTransparency="True" MouseDown="Window_MouseDown">
 
     <Window.Resources>
@@ -36,200 +36,214 @@
             <Setter Property="Background" Value="#23272A "/>
         </Style>
     </Window.Resources>
- 
-    <Grid Background="{x:Null}">
-        <materialDesign:Card Margin="10" UniformCornerRadius="20">
+
+    <Border BorderBrush="White" BorderThickness="1" CornerRadius="8">
+        <materialDesign:Card Margin="10" UniformCornerRadius="20" Grid.Column="0" Grid.ColumnSpan="2">
             <materialDesign:Card.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="#121212" Offset="1"/>
                     <GradientStop Color="#FF23272A" Offset="0"/>
                 </LinearGradientBrush>
             </materialDesign:Card.Background>
-        </materialDesign:Card>
 
-        <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop,Duration=0:0:1}">
-            <materialDesign:Card Margin="10,10,10,725" UniformCornerRadius="20">
-                <materialDesign:Card.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF23272A" Offset="1"/>
-                    </LinearGradientBrush>
-                </materialDesign:Card.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="85"/>
+                    <RowDefinition Height="516"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="225"/>
+                    <ColumnDefinition Width="605"/>
+                </Grid.ColumnDefinitions>
 
-                    <Ellipse Margin="5,5,5,5" Grid.Column="0" Width="55">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="favicon.ico"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
+                <materialDesign:TransitioningContent Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop,Duration=0:0:1}">
+                    <materialDesign:Card Grid.Row="0" Grid.Column="1" UniformCornerRadius="20" HorizontalAlignment="Center" Height="65" Width="805">
+                        <materialDesign:Card.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF23272A" Offset="1"/>
+                            </LinearGradientBrush>
+                        </materialDesign:Card.Background>
 
-                    <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" Click="LoadSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
-                    <Button Name="FavouritesButton" Margin="15" Grid.Column="2" Width="100" Content="Favourites" Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="85"/>
+                                <ColumnDefinition Width="171"/>
+                                <ColumnDefinition Width="171"/>
+                                <ColumnDefinition Width="171"/>
+                                <ColumnDefinition Width="171"/>
+                            </Grid.ColumnDefinitions>
 
-                    <ComboBox ItemContainerStyle="{StaticResource ItemColor}" 
-                              SelectionChanged="PlaylistsMenu_SelectionChanged" 
-                              DropDownOpened="PlaylistsMenu_DropDownOpened" 
-                              Name="PlaylistsMenu"  
-                              Text="Playlists" IsEditable="True" IsReadOnly="True" 
-                              Focusable="False" VerticalContentAlignment="Center" 
-                              HorizontalContentAlignment="Center" Margin="15" Grid.Column="3" 
-                              Width="100" Height="35" FontSize="15" Foreground="White" 
-                              Background="#FF2C2F33" BorderBrush="#FF23272A">
-                    </ComboBox>
-                    <Button Name="CloseButton" Margin="15" Grid.Column="4" Width="90" Content="Close (X)" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
-                </Grid>
-            </materialDesign:Card>
-        </materialDesign:TransitioningContent>
+                            <Ellipse Margin="5,5,5,5" Grid.Column="0" Width="55">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="favicon.ico"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
 
-        <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromBottom,Duration=0:0:1}">
-            <materialDesign:Card Margin="10,603,10,10" UniformCornerRadius="20">
-                <materialDesign:Card.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                        <GradientStop Color="#FF23272A" Offset="0"/>
-                        <GradientStop Color="#FF2C2F33" Offset="1"/>
-                        <GradientStop Color="#FF23272A" Offset="0.13"/>
-                    </LinearGradientBrush>
-                </materialDesign:Card.Background>
+                            <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" Click="LoadSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button Name="FavouritesButton" Margin="15" Grid.Column="2" Width="110" Content="Favourites" Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <materialDesign:Card Margin="15,0,15,0" Grid.Column="0" Height="149" Width="150" Background="#FF343940">
-                        <Image Name="AlbumArt" />
+                            <Button Name="CloseButton" Margin="15" Grid.Column="4" Width="110" HorizontalAlignment="Center" Content="Close (X)" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                        </Grid>
                     </materialDesign:Card>
+                </materialDesign:TransitioningContent>
 
-                    <StackPanel Margin="0,15,0,10" Grid.Column="1" Width="350" Orientation="Vertical">
-                        <MediaElement Name="MusicPlayer" LoadedBehavior="Manual" MediaEnded="MusicPlayer_MediaEnded"/>
-                        <TextBlock Width="0" Height="0" Text="NE ZNAM KAK RABOTI TVA" Name="Link"/>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Name="SongSpeed" Text="Song Speed:" Margin="0,15,8,15" VerticalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Bahnschrift Light" FontSize="14"/>
-                            <materialDesign:Card Background="{x:Null}" Width="25" Height="40">
-                                <TextBlock Text="{Binding Path=Value, ElementName=SpeedSlider}" HorizontalAlignment="Center" Padding="3" VerticalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Bahnschrift Light" FontSize="14" Width="auto" Height="20">
-                                    <TextBlock.Background>
-                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#23272A "/>
-                                            <GradientStop Color="#2C2F33 " Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </TextBlock.Background>
-                                </TextBlock>
-                            </materialDesign:Card>
+                <materialDesign:TransitioningContent Grid.Row="1" Grid.Column="0" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop,Duration=0:0:1}">
+                    <materialDesign:Card Margin="10,0,0,0" Grid.Row="1" Grid.Column="0" UniformCornerRadius="20" HorizontalAlignment="Center" Height="516" Width="210">
+                        <materialDesign:Card.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF23272A" Offset="1"/>
+                            </LinearGradientBrush>
+                        </materialDesign:Card.Background>
 
-                            <Slider x:Name="SpeedSlider" Width="150" Margin="14,15,0,8" VerticalAlignment="Center" Minimum="0.5" Value="1" Maximum="2" 
-                                    ValueChanged="SpeedSlider_ValueChanged" TickPlacement="BottomRight"
-                                    TickFrequency="0.5" IsSnapToTickEnabled="True"
-                                    BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
+                        <StackPanel Orientation="Vertical">
+                            <Button Name="CreatePlaylistButton" Content="Create Playlist" Margin="0,10,0,0" HorizontalAlignment="Center" Width="122" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <TextBlock Text="Playlists" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Earth Orbiter"/>
+                            <ListBox Name="PlaylistsListBox" Width="230" Height="400" Margin="10" Foreground="#DDFFFFFF" MouseUp="PlaylistsListBox_MouseUp">
 
-                            <Button Name="FavouriteButton" Margin="10,0,0,0" Width="60" Height="30" Click="FavouriteButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
-                                <DynamicResource ResourceKey="HeartOutline"/>
-                            </Button>
+                            </ListBox>
                         </StackPanel>
+                        
+                    </materialDesign:Card>
+                </materialDesign:TransitioningContent>
+                
+                <materialDesign:TransitioningContent Grid.Row="1" Grid.Column="1" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight,Duration=0:0:1}">
+                    <materialDesign:Card Margin="10,0,10,0" Grid.Row="1" Grid.Column="1" UniformCornerRadius="20" Height="516" Width="575">
+                        <materialDesign:Card.Background>
+                            <LinearGradientBrush EndPoint="0,1.5" StartPoint="0.5,0">
+                                <GradientStop Color="#FF2C2F33" Offset="0"/>
+                                <GradientStop Color="Black" Offset="0.885"/>
+                            </LinearGradientBrush>
+                        </materialDesign:Card.Background>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="8*"/>
+                            </Grid.RowDefinitions>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Name="SongArtistName" VerticalAlignment="Center" Foreground="White" FontSize="20"/>
-                            <TextBlock Name="SongName" VerticalAlignment="Center" FontSize="20" Foreground="#DDFFFFFF"/>
-                        </StackPanel>
-
-                        <TextBlock Name="SongTimer" Text="00:00" Foreground="#DDFFFFFF" FontSize="14" FontFamily="Fugaz One"/>
-
-                        <Slider Name="SongDuration" MouseDown="SongDuration_MouseDown" Thumb.DragStarted="SongDuration_DragStarted" 
-                                Thumb.DragCompleted="SongDuration_DragCompleted"  ValueChanged="SongDuration_ValueChanged" 
-                                Margin="0,0,10,10" Minimum="0" Maximum="100"
-                                Background="#FF2C2F33" BorderBrush="#FF23272A" Foreground="#FFFFCC00">
-                        </Slider>
-
-                        <StackPanel Orientation="Horizontal">
-                            <Button Name="RepeatButton" Height="26" Width="60" Click="RepeatButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
-                                <DynamicResource ResourceKey="Repeat"/>
-                            </Button>
-                            <Button Name="SkipPreviousButton" Margin="10,0,10,0" Width="60" Click="SkipPreviousButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
-                                <DynamicResource ResourceKey="SkipPrevious"/>
-                            </Button>
-
-                            <Button Name="PlayPauseButton" Height="36" Width="60" Click="PlayPauseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
-                                <DynamicResource ResourceKey="Pause"/>
-                            </Button>
-                            <Button Name="SkipNextButton" Margin="10,0,10,0" Width="60" Click="SkipNextButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
-                                <DynamicResource ResourceKey="SkipNext"/>
-                            </Button>
-
-                            <Button Name="ShuffleButton" Height="26" Width="60" Click="ShuffleButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
-                                <DynamicResource ResourceKey="Shuffle"/>
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="2" Width="45" Orientation="Vertical">
-                        <Slider Name="VolumeSlider" Value="0.5" Margin="10,15,10,10" Minimum="0" Maximum="1" Orientation="Vertical" Height="120" ValueChanged="Slider_ValueChanged" BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
-                        <materialDesign:PackIcon Margin="10,0,10,0" Kind="Audio" Foreground="#DDFFFFFF" Height="25" Width="25"/>
-                    </StackPanel>
-                </Grid>
-            </materialDesign:Card>
-        </materialDesign:TransitioningContent>
-
-        <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight,Duration=0:0:1}">
-            <materialDesign:Card Margin="10,80,10,202" UniformCornerRadius="20">
-                <materialDesign:Card.Background>
-                    <LinearGradientBrush EndPoint="0,1.5" StartPoint="0.5,0">
-                        <GradientStop Color="#FF2C2F33" Offset="0"/>
-                        <GradientStop Color="Black" Offset="0.885"/>
-                    </LinearGradientBrush>
-                </materialDesign:Card.Background>
-                <Grid Margin="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="8*"></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Current Playlist" Margin="0,20,0,0" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Earth Orbiter"/>
-                    <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
-                        <ListBox Name="Playlist" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseDoubleClick="Playlist_MouseDoubleClick">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=ExpandIn}" OpeningEffectsOffset="{materialDesign:IndexedItemOffsetMultiplier 0:0:0.05}">
-                                        <DockPanel>
-                                            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5">
-                                                <Ellipse Name="AlbumArtEllipse" Height="50" Width="50">
-                                                    <Ellipse.Fill>
-                                                        <ImageBrush ImageSource="{Binding Brush}" Stretch="UniformToFill"/>
-                                                    </Ellipse.Fill>
-                                                </Ellipse>
-                                                <TextBlock Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20">
+                            <TextBlock Text="Current Playlist" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Earth Orbiter"/>
+                            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+                                <ListBox Name="Playlist" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseDoubleClick="Playlist_MouseDoubleClick">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=ExpandIn}" OpeningEffectsOffset="{materialDesign:IndexedItemOffsetMultiplier 0:0:0.05}">
+                                                <DockPanel>
+                                                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5">
+                                                        <Ellipse Name="AlbumArtEllipse" Height="50" Width="50">
+                                                            <Ellipse.Fill>
+                                                                <ImageBrush ImageSource="{Binding Brush}" Stretch="UniformToFill"/>
+                                                            </Ellipse.Fill>
+                                                        </Ellipse>
+                                                        <TextBlock Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20">
                                                     <Hyperlink NavigateUri="{Binding Path=Text, ElementName=Link}" RequestNavigate="Hyperlink_RequestNavigate">
                                                         <TextBlock Text="{Binding Artist}"/>
                                                     </Hyperlink>
                                                 </TextBlock>
-                                                <TextBlock Text="{Binding Title}" Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20"/>
-                                            </StackPanel>
-                                            <materialDesign:PackIcon Margin="0,5,0,0" Kind="PlayCircle" VerticalAlignment="Center" Foreground="White" DockPanel.Dock="Right"/>
-                                        </DockPanel>
-                                    </materialDesign:TransitioningContent>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </ScrollViewer>
-                </Grid>
-            </materialDesign:Card>
-        </materialDesign:TransitioningContent>
+                                                        <TextBlock Text="{Binding Title}" Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20"/>
+                                                    </StackPanel>
+                                                    <materialDesign:PackIcon Margin="0,5,0,0" Kind="PlayCircle" VerticalAlignment="Center" Foreground="White" DockPanel.Dock="Right"/>
+                                                </DockPanel>
+                                            </materialDesign:TransitioningContent>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </Grid>
+                    </materialDesign:Card>
+                </materialDesign:TransitioningContent>
 
-        <Border BorderBrush="White" BorderThickness="1" CornerRadius="8">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="119*"/>
-                    <ColumnDefinition Width="379*"/>
-                </Grid.ColumnDefinitions>
+                <materialDesign:TransitioningContent Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromBottom,Duration=0:0:1}">
+                    <materialDesign:Card Margin="10,10,10,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" UniformCornerRadius="20" HorizontalAlignment="Center" Height="225" Width="805">
+                        <materialDesign:Card.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                <GradientStop Color="#FF23272A" Offset="0"/>
+                                <GradientStop Color="#FF2C2F33" Offset="1"/>
+                                <GradientStop Color="#FF23272A" Offset="0.13"/>
+                            </LinearGradientBrush>
+                        </materialDesign:Card.Background>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:Card Margin="10" Grid.Column="0" Height="200" Width="200" Background="#FF343940">
+                                <Image Name="AlbumArt" />
+                            </materialDesign:Card>
+
+                            <StackPanel Margin="0,10,0,10" Grid.Column="1" Width="500" Orientation="Vertical">
+                                <MediaElement Name="MusicPlayer" LoadedBehavior="Manual" MediaEnded="MusicPlayer_MediaEnded"/>
+                                <TextBlock Width="0" Height="0" Text="NE ZNAM KAK RABOTI TVA" Name="Link"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Name="SongSpeed" Text="Song Speed:" Margin="0,15,8,15" VerticalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Bahnschrift Light" FontSize="14"/>
+                                    <materialDesign:Card Background="{x:Null}" Width="25" Height="40">
+                                        <TextBlock Text="{Binding Path=Value, ElementName=SpeedSlider}" HorizontalAlignment="Center" Padding="3" VerticalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Bahnschrift Light" FontSize="14" Width="auto" Height="20">
+                                            <TextBlock.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#23272A "/>
+                                                    <GradientStop Color="#2C2F33 " Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </TextBlock.Background>
+                                        </TextBlock>
+                                    </materialDesign:Card>
+
+                                    <Slider x:Name="SpeedSlider" Width="150" Margin="14,15,0,8" VerticalAlignment="Center" Minimum="0.5" Value="1" Maximum="2" 
+                                    ValueChanged="SpeedSlider_ValueChanged" TickPlacement="BottomRight"
+                                    TickFrequency="0.5" IsSnapToTickEnabled="True"
+                                    BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
+
+                                    <Button Name="FavouriteButton" Margin="17,0,0,0" Width="60" Height="30" Click="FavouriteButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                        <DynamicResource ResourceKey="HeartOutline"/>
+                                    </Button>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
+                                    <TextBlock Name="SongArtistName" VerticalAlignment="Center" Foreground="White" FontSize="20"/>
+                                    <TextBlock Name="SongName" VerticalAlignment="Center" FontSize="20" Foreground="#DDFFFFFF"/>
+                                </StackPanel>
+
+                                <TextBlock Name="SongTimer" Text="00:00" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="14" FontFamily="Fugaz One"/>
+
+                                <Slider Name="SongDuration" Width="360" HorizontalAlignment="Center" MouseDown="SongDuration_MouseDown" Thumb.DragStarted="SongDuration_DragStarted" 
+                                    Thumb.DragCompleted="SongDuration_DragCompleted"  ValueChanged="SongDuration_ValueChanged" 
+                                    Margin="0,0,0,10" Minimum="0" Maximum="100"
+                                    Background="#FF2C2F33" BorderBrush="#FF23272A" Foreground="#FFFFCC00">
+                                </Slider>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Name="RepeatButton" Height="26" Width="60" Click="RepeatButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                        <DynamicResource ResourceKey="Repeat"/>
+                                    </Button>
+                                    <Button Name="SkipPreviousButton" Margin="10,0,10,0" Width="60" Click="SkipPreviousButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                        <DynamicResource ResourceKey="SkipPrevious"/>
+                                    </Button>
+
+                                    <Button Name="PlayPauseButton" Height="36" Width="60" Click="PlayPauseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                        <DynamicResource ResourceKey="Pause"/>
+                                    </Button>
+                                    <Button Name="SkipNextButton" Margin="10,0,10,0" Width="60" Click="SkipNextButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                        <DynamicResource ResourceKey="SkipNext"/>
+                                    </Button>
+
+                                    <Button Name="ShuffleButton" Height="26" Width="60" Click="ShuffleButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                        <DynamicResource ResourceKey="Shuffle"/>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Width="65" Height="220" VerticalAlignment="Center" Margin="10,10,10,10" Orientation="Vertical">
+                                <Slider Name="VolumeSlider" Value="0.5" HorizontalAlignment="Center" Margin="15,22,15,10" Minimum="0" Maximum="1" Orientation="Vertical" Height="160" ValueChanged="Slider_ValueChanged" BorderBrush="#FF23272A" Foreground="#FFFFCC00"/>
+                                <materialDesign:PackIcon HorizontalAlignment="Center" Kind="Audio" Foreground="#DDFFFFFF" Height="25" Width="25"/>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </materialDesign:TransitioningContent>
             </Grid>
-        </Border>
-    </Grid>
+        </materialDesign:Card>
+    </Border>
 </Window>

@@ -56,8 +56,7 @@ namespace MusicPlayerProject
 
             foreach (Playlist playlist in playlists)
             {
-                PlaylistsMenu.Items.Add(playlist);
-                PlaylistsMenu.SelectedValuePath = playlist.Name;
+                PlaylistsListBox.Items.Add(playlist);
 
                 foreach (Song song in playlist.SongList)
                 {
@@ -225,8 +224,6 @@ namespace MusicPlayerProject
             song.Brush = bitmap;
         }
 
-        
-
         //button to load songs
         private void LoadSongsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -250,8 +247,7 @@ namespace MusicPlayerProject
             }
             
             playlists.Add(new Playlist("Playlist " + counter, songs.Count, songs));
-            PlaylistsMenu.Items.Add(playlists[counter - 1]);
-            PlaylistsMenu.SelectedValuePath = playlists[counter - 1].Name;
+            PlaylistsListBox.Items.Add(playlists[counter - 1]);
 
             for (int i = 0; i < songs.Count; i++)
             {
@@ -318,46 +314,24 @@ namespace MusicPlayerProject
             }
         }
 
-        //playlists menu 
-        private void PlaylistsMenu_DropDownOpened(object sender, EventArgs e)
-        {
-            if (PlaylistsMenu.SelectedIndex != -1)
-            {
-                PlaylistsMenu.Text = ((Playlist)PlaylistsMenu.Items[PlaylistsMenu.SelectedIndex]).Name;
-            }
-        }
-
-        //playlists menu select item event change
-        private void PlaylistsMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            favListOnDisplay = false;
-            if (PlaylistsMenu.SelectedItem != null)
-            {
-                Playlist.Items.Clear();
-                for (int i = 0; i < ((Playlist)PlaylistsMenu.Items[PlaylistsMenu.SelectedIndex]).SongList.Count; i++)
-                {
-                    Playlist.Items.Add(((Playlist)PlaylistsMenu.Items[PlaylistsMenu.SelectedIndex]).SongList[i]);
-                }
-                Playlist.Items.Refresh();
-            }
-        }
-
         //adds a song to favourites
         private void FavouriteButton_Click(object sender, RoutedEventArgs e)
         {
             if (FavouriteButton.Content == FindResource("HeartOutline"))
             {
-                for (int i = 0; i < PlaylistsMenu.Items.Count; i++)
+                for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
                 {
-                    for (int k = 0; k < ((Playlist)PlaylistsMenu.Items[i]).SongList.Count; k++)
+                    for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
                     {
-                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == false && ((Playlist)PlaylistsMenu.Items[i]).SongList[k].Title.Contains(SongName.Text))
+                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == false && 
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].Title.Contains(SongName.Text))
                         {
-                            ((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite = true;
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = true;
                         }
-                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == true && !favourites.Contains(((Playlist)PlaylistsMenu.Items[i]).SongList[k]))
+                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == true && 
+                            !favourites.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k]))
                         {
-                            favourites.Add(((Playlist)PlaylistsMenu.Items[i]).SongList[k]);
+                            favourites.Add(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
                         }
                     }
                 }
@@ -376,17 +350,19 @@ namespace MusicPlayerProject
             }
             else
             {
-                for (int i = 0; i < PlaylistsMenu.Items.Count; i++)
+                for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
                 {
-                    for (int k = 0; k < ((Playlist)PlaylistsMenu.Items[i]).SongList.Count; k++)
+                    for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
                     {
-                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == true && ((Playlist)PlaylistsMenu.Items[i]).SongList[k].Title.Contains(SongName.Text))
+                        var song = ((Playlist)PlaylistsListBox.Items[i]).SongList[k];
+
+                        if (song.IsFavourite == true && song.Title.Contains(SongName.Text))
                         {
-                            ((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite = false;
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = false;
                         }
-                        if (((Playlist)PlaylistsMenu.Items[i]).SongList[k].IsFavourite == false && favourites.Contains(((Playlist)PlaylistsMenu.Items[i]).SongList[k]))
+                        if (song.IsFavourite == false && favourites.Contains(song))
                         {
-                            favourites.Remove(((Playlist)PlaylistsMenu.Items[i]).SongList[k]);
+                            favourites.Remove(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
                         }
                     }
                 }
@@ -479,10 +455,6 @@ namespace MusicPlayerProject
                 AlbumArtSet(path);
                 MusicPlayer.Source = new Uri(path);
                 MusicPlayer.Play();
-            }
-            else
-            {
-                // last song in listbox has been played
             }
         }
 
@@ -635,6 +607,20 @@ namespace MusicPlayerProject
         {
             SavePlaylists();
             Close();
+        }
+
+        private void PlaylistsListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            favListOnDisplay = false;
+            if (PlaylistsListBox.SelectedItem != null)
+            {
+                Playlist.Items.Clear();
+                for (int i = 0; i < ((Playlist)PlaylistsListBox.Items[PlaylistsListBox.SelectedIndex]).SongList.Count; i++)
+                {
+                    Playlist.Items.Add(((Playlist)PlaylistsListBox.Items[PlaylistsListBox.SelectedIndex]).SongList[i]);
+                }
+                Playlist.Items.Refresh();
+            }
         }
     }
 }
