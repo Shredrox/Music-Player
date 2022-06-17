@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace MusicPlayerProject
 {
-    /// <summary>
-    /// Interaction logic for CreatePlaylistWindow.xaml
-    /// </summary>
     public partial class CreatePlaylistWindow : Window
     {
         public CreatePlaylistWindow()
