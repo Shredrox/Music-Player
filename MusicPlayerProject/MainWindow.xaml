@@ -103,7 +103,8 @@
                         </materialDesign:Card.Background>
 
                         <StackPanel Orientation="Vertical">
-                            <Button Name="CreatePlaylistButton" Content="Create Playlist" Margin="0,10,0,0" HorizontalAlignment="Center" Width="122" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button Name="CreatePlaylistButton" Content="Create Playlist" Margin="0,10,0,0" HorizontalAlignment="Center" 
+                                    Width="122" Background="#FF2C2F33" BorderBrush="#FF23272A" Click="CreatePlaylistButton_Click"/>
                             <TextBlock Text="Playlists" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Earth Orbiter"/>
                             <ListBox Name="PlaylistsListBox" Width="185" Height="400" Margin="10" Foreground="#DDFFFFFF" MouseLeftButtonUp="PlaylistsListBox_MouseLeftButtonUp">
                                 <ListBox.Resources>

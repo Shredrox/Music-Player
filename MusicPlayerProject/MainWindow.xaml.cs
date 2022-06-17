@@ -90,6 +90,36 @@ namespace MusicPlayerProject
             }
         }
 
+        public static BitmapImage CreateImageFromPath(string filePath)
+        {
+            if (filePath.Contains("file://"))
+            {
+                string[] pathSplit = filePath.Split(new string[] { "///" }, StringSplitOptions.None);
+                filePath = pathSplit[1];
+            }
+
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.UriSource = new Uri(filePath, UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
+            bitmapImage.Freeze();
+
+            return bitmapImage;
+        }
+
+        public static BitmapImage CreateImageFromStream(MemoryStream stream)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.StreamSource = stream;
+            bitmapImage.EndInit();
+            bitmapImage.Freeze();
+
+            return bitmapImage;
+        }
+
         //loads data from song metadata
         private void LoadSongData(string path, bool isFavourite)
         {
@@ -98,56 +128,39 @@ namespace MusicPlayerProject
                 return;
             }
 
-            string songName;
+            string songName = Path.GetFileName(Path.GetFileNameWithoutExtension(path));
             if (SongTitleTagGetter(path) != String.Empty)
             {
                 songName = SongTitleTagGetter(path);
             }
-            else
-            {
-                songName = Path.GetFileName(Path.GetFileNameWithoutExtension(path));
-            }
 
             string songPath = Path.GetFullPath(path);
             ArtistTagGetter(songPath);
+
             string artist = artistName;
             TagLib.File file1 = TagLib.File.Create(path);
+            BitmapImage bitmap;
 
             if (file1.Tag.Pictures == null || file1.Tag.Pictures.Length == 0)
             {
-                BitmapImage bitI = new BitmapImage();
-                bitI.BeginInit();
-                bitI.UriSource = new Uri("../../Images/songicon.png", UriKind.Relative);
-                bitI.EndInit();
-
-                if (isFavourite)
-                {
-                    favourites.Add(new Song(songName, @songPath, artist, true, bitI));
-                }
-                else
-                {
-                    songs.Add(new Song(songName, @songPath, artist, false, bitI));
-                }
+                bitmap = CreateImageFromPath("../../Images/songicon.png");
             }
             else
             {
                 TagLib.IPicture pic1 = file1.Tag.Pictures[0];
-                MemoryStream ms1 = new MemoryStream(pic1.Data.Data);
-                ms1.Seek(0, SeekOrigin.Begin);
+                MemoryStream ms = new MemoryStream(pic1.Data.Data);
+                ms.Seek(0, SeekOrigin.Begin);
 
-                BitmapImage bitmap1 = new BitmapImage();
-                bitmap1.BeginInit();
-                bitmap1.StreamSource = ms1;
-                bitmap1.EndInit();
+                bitmap = CreateImageFromStream(ms);
+            }
 
-                if (isFavourite)
-                {
-                    favourites.Add(new Song(songName, @songPath, artist, true, bitmap1));
-                }
-                else
-                {
-                    songs.Add(new Song(songName, @songPath, artist, false, bitmap1));
-                }
+            if (isFavourite)
+            {
+                favourites.Add(new Song(songName, @songPath, artist, true, bitmap));
+            }
+            else
+            {
+                songs.Add(new Song(songName, @songPath, artist, false, bitmap));
             }
         }
 
@@ -155,27 +168,39 @@ namespace MusicPlayerProject
         private void AlbumArtSet(string path)
         {
             TagLib.File file = TagLib.File.Create(path);
-            BitmapImage bitmap = new BitmapImage();
 
             if (file.Tag.Pictures == null || file.Tag.Pictures.Length == 0)
             {
-                AlbumArt.Source = new BitmapImage(new Uri("../../Images/songicon.png", UriKind.Relative));
+                AlbumArt.Source = CreateImageFromPath("../../Images/songicon.png");
+                return;
             }
-            else
-            {
-                TagLib.IPicture pic = file.Tag.Pictures[0];
-                MemoryStream ms = new MemoryStream(pic.Data.Data);
-                ms.Seek(0, SeekOrigin.Begin);
 
-                bitmap.BeginInit();
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
-                AlbumArt.Source = bitmap;
+            TagLib.IPicture pic = file.Tag.Pictures[0];
+            MemoryStream ms = new MemoryStream(pic.Data.Data);
+            ms.Seek(0, SeekOrigin.Begin);
+
+            AlbumArt.Source = CreateImageFromStream(ms);
+        }
+
+        private void SetSongBrush(Song song)
+        {
+            TagLib.File file = TagLib.File.Create(song.Path);
+
+            if (file.Tag.Pictures == null || file.Tag.Pictures.Length == 0)
+            {
+                song.Brush = CreateImageFromPath("../../Images/songicon.png");
+                return;
             }
+
+            TagLib.IPicture pic = file.Tag.Pictures[0];
+            MemoryStream ms = new MemoryStream(pic.Data.Data);
+            ms.Seek(0, SeekOrigin.Begin);
+
+            song.Brush = CreateImageFromStream(ms);
         }
 
         //gets artist name from song medadata
-        private void ArtistTagGetter(string path)
+        public void ArtistTagGetter(string path)
         {
             TagLib.File file = TagLib.File.Create(path);
             if(file.Tag.AlbumArtists.Length != 0)
@@ -193,7 +218,7 @@ namespace MusicPlayerProject
         }
 
         //gets song title from song metadata
-        private string SongTitleTagGetter(string path)
+        public static string SongTitleTagGetter(string path)
         {
             TagLib.File file = TagLib.File.Create(path);
             string songTitle = String.Empty;
@@ -202,27 +227,6 @@ namespace MusicPlayerProject
                 songTitle = file.Tag.Title;
             }
             return songTitle;
-        }
-
-        private void SetSongBrush(Song song)
-        {
-            TagLib.File file = TagLib.File.Create(song.Path);
-            BitmapImage bitmap = new BitmapImage();
-
-            if (file.Tag.Pictures == null || file.Tag.Pictures.Length == 0)
-            {
-                song.Brush = new BitmapImage(new Uri("../../Images/songicon.png", UriKind.Relative));
-                return;
-            }
-
-            TagLib.IPicture pic = file.Tag.Pictures[0];
-            MemoryStream ms = new MemoryStream(pic.Data.Data);
-            ms.Seek(0, SeekOrigin.Begin);
-
-            bitmap.BeginInit();
-            bitmap.StreamSource = ms;
-            bitmap.EndInit();
-            song.Brush = bitmap;
         }
 
         //button to load songs
@@ -244,11 +248,11 @@ namespace MusicPlayerProject
                 {
                     LoadSongData(filename, false);
                 }
-                counter++;
+                //counter++;
             }
             
-            playlists.Add(new Playlist("Playlist " + counter, songs.Count, songs));
-            PlaylistsListBox.Items.Add(playlists[counter - 1]);
+           // playlists.Add(new Playlist("Playlist " + counter, songs.Count, songs));
+            //PlaylistsListBox.Items.Add(playlists[counter - 1]);
 
             for (int i = 0; i < songs.Count; i++)
             {
@@ -677,6 +681,19 @@ namespace MusicPlayerProject
 
             songs.Clear();
             Playlist.Items.Refresh();
+        }
+
+        private void CreatePlaylistButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreatePlaylistWindow createPlaylistWindow = new CreatePlaylistWindow();
+            createPlaylistWindow.ShowDialog();
+
+            if (createPlaylistWindow.DialogResult == true)
+            {
+                playlists.Add(createPlaylistWindow.newPlaylist);
+                PlaylistsListBox.Items.Add(createPlaylistWindow.newPlaylist);
+                PlaylistsListBox.Items.Refresh();
+            }
         }
     }
 }
