@@ -90,11 +90,6 @@ namespace MusicPlayerProject
             newSongList.Add(new Song(songName, @songPath, artist, false, bitmap));
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-        }
-
         private void CreatePlaylistButton_Click(object sender, RoutedEventArgs e)
         {
             if(NewPlaylistName.Text == String.Empty)
@@ -110,6 +105,11 @@ namespace MusicPlayerProject
             newPlaylist = new Playlist(NewPlaylistName.Text, newSongList.Count, newSongList);
 
             DialogResult = true;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
         }
     }
 }

@@ -178,6 +178,37 @@ namespace MusicPlayerProject
             AlbumArt.Source = CreateImageFromStream(ms);
         }
 
+        //gets artist name from song medadata
+        public void ArtistTagGetter(string path)
+        {
+            TagLib.File file = TagLib.File.Create(path);
+            if (file.Tag.AlbumArtists.Length != 0)
+            {
+                artistName = file.Tag.AlbumArtists[0];
+            }
+            else if (file.Tag.Performers.Length != 0)
+            {
+                artistName = file.Tag.Performers[0];
+            }
+            else
+            {
+                artistName = "No artist data";
+            }
+        }
+
+        //gets song title from song metadata
+        public static string SongTitleTagGetter(string path)
+        {
+            TagLib.File file = TagLib.File.Create(path);
+            string songTitle = String.Empty;
+            if (file.Tag.Title != null)
+            {
+                songTitle = file.Tag.Title;
+            }
+            return songTitle;
+        }
+
+        //sets song brush after deserialization
         private void SetSongBrush(Song song)
         {
             TagLib.File file = TagLib.File.Create(song.Path);
@@ -195,34 +226,20 @@ namespace MusicPlayerProject
             song.Brush = CreateImageFromStream(ms);
         }
 
-        //gets artist name from song medadata
-        public void ArtistTagGetter(string path)
+        //artist links 
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            TagLib.File file = TagLib.File.Create(path);
-            if(file.Tag.AlbumArtists.Length != 0)
+            if (artistName != "No artist data")
             {
-                artistName = file.Tag.AlbumArtists[0];
-            }
-            else if(file.Tag.Performers.Length != 0)
-            {
-                artistName = file.Tag.Performers[0];
+                string link = "https://en.wikipedia.org/wiki/";
+                link += artistName;
+                Process.Start(new ProcessStartInfo(link));
+                e.Handled = true;
             }
             else
             {
-                artistName = "No artist data";
+                e.Handled = false;
             }
-        }
-
-        //gets song title from song metadata
-        public static string SongTitleTagGetter(string path)
-        {
-            TagLib.File file = TagLib.File.Create(path);
-            string songTitle = String.Empty;
-            if(file.Tag.Title != null)
-            {
-                songTitle = file.Tag.Title;
-            }
-            return songTitle;
         }
 
         //button to load songs
@@ -249,6 +266,111 @@ namespace MusicPlayerProject
 
             songsLoaded = true;
             Playlist.Items.Refresh();
+            CurrentPlaylistText.Text = "Loaded Songs";
+        }
+
+        //loads the loaded songs
+        private void LoadedSongsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (loadedSongsList.Count == 0)
+            {
+                MessageBox.Show("No loaded songs. Load songs to use this feature.");
+                return;
+            }
+
+            Playlist.Items.Clear();
+            foreach (Song song in loadedSongsList)
+            {
+                Playlist.Items.Add(song);
+            }
+            Playlist.Items.Refresh();
+
+            PlaylistsListBox.SelectedItem = null;
+            songsLoaded = true;
+            loadedPlaylist = false;
+            CurrentPlaylistText.Text = "Loaded Songs";
+        }
+
+        //load favourites
+        private void FavouritesButton_Click(object sender, RoutedEventArgs e)
+        {
+            favListOnDisplay = true;
+            if (Playlist.Items.Count > 0)
+            {
+                Playlist.Items.Clear();
+            }
+            for (int i = 0; i < favourites.Count; i++)
+            {
+                Playlist.Items.Add(favourites[i]);
+            }
+
+            Playlist.Items.Refresh();
+            loadedPlaylist = false;
+            songsLoaded = false;
+            PlaylistsListBox.SelectedItem = null;
+            CurrentPlaylistText.Text = "Favourites";
+        }
+
+        //adds a song to favourites
+        private void FavouriteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var favouriteSongsIDs = favourites
+                .Select(s => s.ID)
+                .ToList();
+
+            if (Playlist.SelectedItem != null)
+            {
+                selectedSong = (Song)Playlist.SelectedItem;
+            }
+
+            if (FavouriteButton.Content == FindResource("HeartOutline"))
+            {
+                for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
+                {
+                    for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
+                    {
+                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == false &&
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID &&
+                            !favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
+                        {
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = true;
+                            favourites.Add(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
+                            break;
+                        }
+                    }
+                }
+
+                FavouriteButton.Content = FindResource("HeartFull");
+            }
+            else
+            {
+                for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
+                {
+                    for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
+                    {
+                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == true &&
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID &&
+                            favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
+                        {
+                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = false;
+                            favourites.Remove(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
+                            break;
+                        }
+                    }
+                }
+
+                FavouriteButton.Content = FindResource("HeartOutline");
+            }
+
+            if (favListOnDisplay == true)
+            {
+                Playlist.Items.Clear();
+                for (int i = 0; i < favourites.Count; i++)
+                {
+                    Playlist.Items.Add(favourites[i]);
+                }
+                Playlist.Items.Refresh();
+            }
         }
 
         //button to play a song from the current playlist
@@ -257,8 +379,8 @@ namespace MusicPlayerProject
             ListBox Playlist = sender as ListBox;
             if (Playlist.SelectedItems.Count > 0)
             {
-                Song selectedSong = (Song)Playlist.SelectedItems[0];
-
+                selectedSong = (Song)Playlist.SelectedItem;
+                
                 AlbumArtSet(selectedSong.Path);
                 ArtistTagGetter(selectedSong.Path);
 
@@ -307,103 +429,6 @@ namespace MusicPlayerProject
             }
         }
 
-        //adds a song to favourites
-        private void FavouriteButton_Click(object sender, RoutedEventArgs e)
-        {
-            var favouriteSongsIDs = favourites
-                .Select(s => s.ID)
-                .ToList();
-
-            if(Playlist.SelectedItem != null)
-            {
-                selectedSong = (Song)Playlist.SelectedItem;
-            }
-            
-            if (FavouriteButton.Content == FindResource("HeartOutline"))
-            {
-                for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
-                {
-                    for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
-                    {
-                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == false && 
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID &&
-                            !favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
-                        {
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = true;
-                            favourites.Add(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
-                            break;
-                        }
-                    }
-                }
-                
-                FavouriteButton.Content = FindResource("HeartFull");
-            }
-            else
-            {
-                for (int i = 0; i < PlaylistsListBox.Items.Count; i++)
-                {
-                    for (int k = 0; k < ((Playlist)PlaylistsListBox.Items[i]).SongList.Count; k++)
-                    {
-                        if (((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite == true &&
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID == selectedSong.ID &&
-                            favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.Items[i]).SongList[k].ID))
-                        {
-                            ((Playlist)PlaylistsListBox.Items[i]).SongList[k].IsFavourite = false;
-                            favourites.Remove(((Playlist)PlaylistsListBox.Items[i]).SongList[k]);
-                            break;
-                        }
-                    }
-                }
-
-                FavouriteButton.Content = FindResource("HeartOutline");
-            }
-
-            if (favListOnDisplay == true)
-            {
-                Playlist.Items.Clear();
-                for (int i = 0; i < favourites.Count; i++)
-                {
-                    Playlist.Items.Add(favourites[i]);
-                }
-                Playlist.Items.Refresh();
-            }
-        }
-
-        //load favourites
-        private void FavouritesButton_Click(object sender, RoutedEventArgs e)
-        {
-            favListOnDisplay = true;
-            if (Playlist.Items.Count > 0)
-            {
-                Playlist.Items.Clear();
-            }
-            for (int i = 0; i < favourites.Count; i++)
-            {
-                Playlist.Items.Add(favourites[i]);
-            }
-            Playlist.Items.Refresh();
-            loadedPlaylist = false;
-            songsLoaded = false;
-            PlaylistsListBox.SelectedItem = null;
-            CurrentPlaylistText.Text = "Favourites";
-        }
-
-        //artist links 
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-        {
-            if (artistName != "No artist data")
-            {
-                string link = "https://en.wikipedia.org/wiki/";
-                link += artistName;
-                Process.Start(new ProcessStartInfo(link));
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = false;
-            }
-        }
-
         //song timeline slider
         private void SongDuration_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
@@ -421,7 +446,21 @@ namespace MusicPlayerProject
             SongTimer.Text = TimeSpan.FromSeconds(SongDuration.Value).ToString(@"mm\:ss");
         }
 
-        //media controls//
+        #region MediaControls
+        //pause/play
+        private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlayPauseButton.Content == FindResource("Pause"))
+            {
+                MusicPlayer.Pause();
+                PlayPauseButton.Content = FindResource("Play");
+            }
+            else
+            {
+                MusicPlayer.Play();
+                PlayPauseButton.Content = FindResource("Pause");
+            }
+        }
 
         //skip to next song
         private void SkipNextButton_Click(object sender, RoutedEventArgs e)
@@ -439,21 +478,6 @@ namespace MusicPlayerProject
                 AlbumArtSet(path);
                 MusicPlayer.Source = new Uri(path);
                 MusicPlayer.Play();
-            }
-        }
-
-        //pause/play
-        private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PlayPauseButton.Content == FindResource("Pause"))
-            {
-                MusicPlayer.Pause();
-                PlayPauseButton.Content = FindResource("Play");
-            }
-            else
-            {
-                MusicPlayer.Play();
-                PlayPauseButton.Content = FindResource("Pause");
             }
         }
 
@@ -509,7 +533,7 @@ namespace MusicPlayerProject
                 ShuffleButton.Content = FindResource("Shuffle");
             }
         }
-
+        
         //volume control
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -529,6 +553,7 @@ namespace MusicPlayerProject
             TimeSpan ts = new TimeSpan(0, 0, 0, 0, SliderValue);
             MusicPlayer.Position = ts;
         }
+        #endregion
 
         //automatic playing of next song in list
         private void MusicPlayer_MediaEnded(object sender, RoutedEventArgs e)
@@ -577,22 +602,36 @@ namespace MusicPlayerProject
             }
         }
 
-        //draggable window
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        #region PlaylistControls
+        //playlist creation
+        private void CreatePlaylistButton_Click(object sender, RoutedEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (songsLoaded && !loadedPlaylist)
             {
-                this.DragMove();
+                if (MessageBox.Show("Do you want to create a playlist from the loaded songs?", "Creating Playlist",
+                    MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    var newPlaylist = new Playlist("New Playlist", loadedSongsList.Count, loadedSongsList);
+
+                    playlists.Add(newPlaylist);
+                    PlaylistsListBox.Items.Add(newPlaylist);
+                    PlaylistsListBox.Items.Refresh();
+                }
+                return;
+            }
+
+            CreatePlaylistWindow createPlaylistWindow = new CreatePlaylistWindow();
+            createPlaylistWindow.ShowDialog();
+
+            if (createPlaylistWindow.DialogResult == true)
+            {
+                playlists.Add(createPlaylistWindow.newPlaylist);
+                PlaylistsListBox.Items.Add(createPlaylistWindow.newPlaylist);
+                PlaylistsListBox.Items.Refresh();
             }
         }
 
-        //close button
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            SavePlaylists();
-            Close();
-        }
-
+        //playlist selection
         private void PlaylistsListBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if(PlaylistsListBox.SelectedItem == null)
@@ -612,6 +651,7 @@ namespace MusicPlayerProject
             CurrentPlaylistText.Text = "Current Playlist: " + ((Playlist)PlaylistsListBox.SelectedItem).Name;
         }
 
+        //playlist deletion
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if(PlaylistsListBox.SelectedIndex == -1 || PlaylistsListBox.SelectedItem == null)
@@ -624,6 +664,7 @@ namespace MusicPlayerProject
             PlaylistsListBox.Items.Refresh();
         }
 
+        //playlist renaming
         private void RenameMenuItem_Click(object sender, RoutedEventArgs e)
         {
             EditPlaylistWindow editPlaylistWindow = new EditPlaylistWindow((Playlist)PlaylistsListBox.SelectedItem);
@@ -632,6 +673,7 @@ namespace MusicPlayerProject
             PlaylistsListBox.Items.Refresh();
         }
 
+        //add songs to playlist
         private void AddSongsButton_Click(object sender, RoutedEventArgs e)
         {
             if (Playlist.Items.Count == 0 || PlaylistsListBox.SelectedItem == null || loadedPlaylist == false)
@@ -656,53 +698,22 @@ namespace MusicPlayerProject
 
             Playlist.Items.Refresh();
         }
+        #endregion
 
-        private void CreatePlaylistButton_Click(object sender, RoutedEventArgs e)
+        //draggable window
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(songsLoaded && !loadedPlaylist)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if(MessageBox.Show("Do you want to create a playlist from the loaded songs?", "Creating Playlist",
-                    MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    var newPlaylist = new Playlist("New Playlist", loadedSongsList.Count, loadedSongsList);
-
-                    playlists.Add(newPlaylist);
-                    PlaylistsListBox.Items.Add(newPlaylist);
-                    PlaylistsListBox.Items.Refresh();
-                }
-                return;
-            }
-
-            CreatePlaylistWindow createPlaylistWindow = new CreatePlaylistWindow();
-            createPlaylistWindow.ShowDialog();
-
-            if (createPlaylistWindow.DialogResult == true)
-            {
-                playlists.Add(createPlaylistWindow.newPlaylist);
-                PlaylistsListBox.Items.Add(createPlaylistWindow.newPlaylist);
-                PlaylistsListBox.Items.Refresh();
+                this.DragMove();
             }
         }
 
-        private void LoadedSongsButton_Click(object sender, RoutedEventArgs e)
+        //close button
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            if(loadedSongsList.Count == 0)
-            {
-                MessageBox.Show("No loaded songs. Load songs to use this feature.");
-                return;
-            }
-
-            Playlist.Items.Clear();
-            foreach(Song song in loadedSongsList)
-            {
-                Playlist.Items.Add(song);
-            }
-            Playlist.Items.Refresh();
-
-            PlaylistsListBox.SelectedItem = null;
-            songsLoaded = true;
-            loadedPlaylist = false;
-            CurrentPlaylistText.Text = "Loaded Songs";
+            SavePlaylists();
+            Close();
         }
     }
 }
