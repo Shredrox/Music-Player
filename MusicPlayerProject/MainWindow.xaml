@@ -136,7 +136,7 @@
                                                                 <Setter.Value>
                                                                     <ControlTemplate TargetType="{x:Type ContextMenu}">
                                                                         <Border x:Name="Border" Background="#FF2C2F33" BorderThickness="1">
-                                                                            <ItemsPresenter />
+                                                                            <ItemsPresenter/>
                                                                         </Border>
                                                                     </ControlTemplate>
                                                                 </Setter.Value>

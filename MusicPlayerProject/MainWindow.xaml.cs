@@ -705,6 +705,26 @@ namespace MusicPlayerProject
             EditPlaylistWindow editPlaylistWindow = new EditPlaylistWindow((Playlist)PlaylistsListBox.SelectedItem);
             editPlaylistWindow.ShowDialog();
 
+            bool isRenamedPlaylistLoaded = false;
+
+            var renamedPlaylistSongsIDs = ((Playlist)PlaylistsListBox.SelectedItem).SongList
+                .Select(s => s.ID)
+                .ToList();
+
+            for (int i = 0; i < Playlist.Items.Count; i++)
+            {
+                if(renamedPlaylistSongsIDs.Contains(((Song)Playlist.Items[i]).ID))
+                {
+                    isRenamedPlaylistLoaded = true;
+                    break;
+                }
+            }
+
+            if (isRenamedPlaylistLoaded && loadedPlaylist)
+            {
+                CurrentPlaylistText.Text = "Current Playlist: " + ((Playlist)PlaylistsListBox.SelectedItem).Name;
+            }
+
             PlaylistsListBox.Items.Refresh();
         }
 

@@ -119,9 +119,6 @@
     <Resource Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\painnnn.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\songicon.png" />
   </ItemGroup>
   <ItemGroup>
