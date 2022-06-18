@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:MusicPlayerProject"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" WindowStyle="None"
-        Title="CreatePlaylistWindow" Height="500" Width="500">
+        Title="CreatePlaylistWindow" Height="550" Width="500"
+        MouseDown="Window_MouseDown">
     
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -18,12 +19,16 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="350"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Width="500">
+        <TextBlock Text="Creating Playlist" Grid.Row="0" Foreground="White"
+                   VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="26"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Width="500">
             <TextBlock Name="Songs" Text="Songs: " Margin="167,10,10,10" Height="30" Width="65" Foreground="White" 
                        FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
@@ -31,20 +36,19 @@
                     Background="#FF2C2F33" BorderBrush="#FF23272A" Click="AddSongsButton_Click"/>
         </StackPanel>
         
-        <ListBox Name="PlaylistSongsListBox" Grid.Row="1" Width="450" 
+        <ListBox Name="PlaylistSongsListBox" Grid.Row="2" Width="450" 
                  Height="300" Margin="10" Background="#FF2C2F33" Foreground="#DDFFFFFF">
             
         </ListBox>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Height="50">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Height="50">
             <TextBlock Name="PlaylistName" Text="Playlist Name: " Margin="80,10,10,10" Height="30" Foreground="White" 
                        FontSize="20" VerticalAlignment="Center"/>
 
             <TextBox Name="NewPlaylistName" Width="200" Height="30" Margin="10" Foreground="White" Background="#FF423C3C"/>
         </StackPanel>
 
-
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Height="50">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Height="50">
             <Button Name="CancelButton" Content="Cancel" Margin="90,10,10,10"
                 Grid.Row="2" Width="150" Background="#FF2C2F33" BorderBrush="#FF23272A" Click="CancelButton_Click"/>
 

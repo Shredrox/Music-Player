@@ -107,6 +107,11 @@ namespace MusicPlayerProject
             DialogResult = true;
         }
 
+        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;

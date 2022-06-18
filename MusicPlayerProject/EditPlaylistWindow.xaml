@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:MusicPlayerProject"
         mc:Ignorable="d"
         WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Title="EditPlaylistWindow" Height="100" Width="300">
+        Title="EditPlaylistWindow" Height="100" Width="300"
+        MouseDown="Window_MouseDown">
 
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">

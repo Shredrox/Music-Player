@@ -17,7 +17,6 @@ namespace MusicPlayerProject
 {
     public partial class MainWindow : Window
     {
-        //global variables
         private List<Song> loadedSongsList = new List<Song>();
         private List<Playlist> playlists = new List<Playlist>();
         private List<Song> favourites = new List<Song>();
@@ -182,6 +181,7 @@ namespace MusicPlayerProject
         public void ArtistTagGetter(string path)
         {
             TagLib.File file = TagLib.File.Create(path);
+
             if (file.Tag.AlbumArtists.Length != 0)
             {
                 artistName = file.Tag.AlbumArtists[0];
@@ -242,7 +242,6 @@ namespace MusicPlayerProject
             }
         }
 
-        //button to load songs
         private void LoadSongsButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog musicFiles = new OpenFileDialog();
@@ -265,6 +264,7 @@ namespace MusicPlayerProject
             }
 
             songsLoaded = true;
+            loadedPlaylist = false;
             Playlist.Items.Refresh();
             CurrentPlaylistText.Text = "Loaded Songs";
         }
@@ -447,7 +447,6 @@ namespace MusicPlayerProject
         }
 
         #region MediaControls
-        //pause/play
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
             if (PlayPauseButton.Content == FindResource("Pause"))
@@ -462,7 +461,6 @@ namespace MusicPlayerProject
             }
         }
 
-        //skip to next song
         private void SkipNextButton_Click(object sender, RoutedEventArgs e)
         {
             if (currentSongIndex == -1)
@@ -481,7 +479,6 @@ namespace MusicPlayerProject
             }
         }
 
-        //skip to previous song
         private void SkipPreviousButton_Click(object sender, RoutedEventArgs e)
         {
             if (currentSongIndex == -1)
@@ -504,7 +501,6 @@ namespace MusicPlayerProject
             }
         }
 
-        //repeat button
         private void RepeatButton_Click(object sender, RoutedEventArgs e)
         {
             if (RepeatButton.Content == FindResource("Repeat"))
@@ -519,7 +515,6 @@ namespace MusicPlayerProject
             }
         }
 
-        //shuffle button
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
             if (ShuffleButton.Content == FindResource("Shuffle"))
@@ -603,7 +598,6 @@ namespace MusicPlayerProject
         }
 
         #region PlaylistControls
-        //playlist creation
         private void CreatePlaylistButton_Click(object sender, RoutedEventArgs e)
         {
             if (songsLoaded && !loadedPlaylist)
@@ -616,8 +610,9 @@ namespace MusicPlayerProject
                     playlists.Add(newPlaylist);
                     PlaylistsListBox.Items.Add(newPlaylist);
                     PlaylistsListBox.Items.Refresh();
+
+                    return;
                 }
-                return;
             }
 
             CreatePlaylistWindow createPlaylistWindow = new CreatePlaylistWindow();
@@ -657,6 +652,46 @@ namespace MusicPlayerProject
             if(PlaylistsListBox.SelectedIndex == -1 || PlaylistsListBox.SelectedItem == null)
             {
                 return;
+            }
+
+            var favouriteSongsIDs = favourites
+                .Select(s => s.ID)
+                .ToList();
+
+            var playlistForDeletionSongIDs = ((Playlist)PlaylistsListBox.SelectedItem).SongList
+                .Select(s => s.ID)
+                .ToList();
+
+            for (int i = 0; i < ((Playlist)PlaylistsListBox.SelectedItem).SongList.Count; i++)
+            {
+                if (favouriteSongsIDs.Contains(((Playlist)PlaylistsListBox.SelectedItem).SongList[i].ID))
+                {
+                    favourites
+                        .Remove(favourites
+                            .Where(s => s.ID == ((Playlist)PlaylistsListBox.SelectedItem).SongList[i].ID)
+                            .SingleOrDefault());
+                }
+            }
+
+            for (int i = 0; i < Playlist.Items.Count; i++)
+            {
+                if (playlistForDeletionSongIDs.Contains(((Song)Playlist.Items[i]).ID) && !favListOnDisplay)
+                {
+                    Playlist.Items.Clear();
+                    Playlist.Items.Refresh();
+                    CurrentPlaylistText.Text = "Current Playlist";
+                    break;
+                }
+                else if (playlistForDeletionSongIDs.Contains(((Song)Playlist.Items[i]).ID) && favListOnDisplay)
+                {
+                    Playlist.Items.Clear();
+                    for (int k = 0; k < favourites.Count; k++)
+                    {
+                        Playlist.Items.Add(favourites[k]);
+                    }
+                    Playlist.Items.Refresh();
+                    break;
+                }
             }
 
             playlists.RemoveAt(PlaylistsListBox.SelectedIndex);
@@ -709,7 +744,6 @@ namespace MusicPlayerProject
             }
         }
 
-        //close button
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             SavePlaylists();
