@@ -224,8 +224,12 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <materialDesign:Card Margin="10" Grid.Column="0" Height="200" Width="200" Background="#FF343940">
-                                <Image Name="AlbumArt" />
+                            <materialDesign:Card Margin="10" Grid.Column="0" Height="200" Width="200" Background="#FF343940" UniformCornerRadius="10">
+                                <Border CornerRadius="8">
+                                    <Border.Background>
+                                        <ImageBrush x:Name="AlbumArt"/>
+                                    </Border.Background>
+                                </Border>
                             </materialDesign:Card>
 
                             <StackPanel Margin="0,10,0,10" Grid.Column="1" Width="500" Orientation="Vertical">

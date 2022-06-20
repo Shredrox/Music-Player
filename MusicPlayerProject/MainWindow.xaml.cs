@@ -166,7 +166,7 @@ namespace MusicPlayerProject
 
             if (file.Tag.Pictures == null || file.Tag.Pictures.Length == 0)
             {
-                AlbumArt.Source = CreateImageFromPath("../../Images/songicon.png");
+                AlbumArt.ImageSource = CreateImageFromPath("../../Images/songicon.png");
                 return;
             }
 
@@ -174,7 +174,7 @@ namespace MusicPlayerProject
             MemoryStream ms = new MemoryStream(pic.Data.Data);
             ms.Seek(0, SeekOrigin.Begin);
 
-            AlbumArt.Source = CreateImageFromStream(ms);
+            AlbumArt.ImageSource = CreateImageFromStream(ms);
         }
 
         //gets artist name from song medadata
