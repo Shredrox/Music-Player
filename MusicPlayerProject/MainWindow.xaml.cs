@@ -294,6 +294,12 @@ namespace MusicPlayerProject
         //load favourites
         private void FavouritesButton_Click(object sender, RoutedEventArgs e)
         {
+            if(favourites.Count == 0)
+            {
+                MessageBox.Show("No favourites have been added.");
+                return;
+            }
+
             favListOnDisplay = true;
             if (Playlist.Items.Count > 0)
             {
@@ -762,6 +768,11 @@ namespace MusicPlayerProject
             {
                 this.DragMove();
             }
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

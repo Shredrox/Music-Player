@@ -17,7 +17,7 @@
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}" 
         WindowStartupLocation="CenterScreen" 
-        ResizeMode="NoResize"  Title="Music App" WindowStyle="None"
+        ResizeMode="CanMinimize" Title="Music App" WindowStyle="None"
         AllowsTransparency="True" MouseDown="Window_MouseDown">
 
     <Window.Resources>
@@ -70,7 +70,8 @@
                                 <ColumnDefinition Width="161"/>
                                 <ColumnDefinition Width="141"/>
                                 <ColumnDefinition Width="141"/>
-                                <ColumnDefinition Width="141"/>
+                                <ColumnDefinition Width="71"/>
+                                <ColumnDefinition Width="70"/>
                             </Grid.ColumnDefinitions>
 
                             <Ellipse Margin="5,5,5,5" Grid.Column="0" Width="55">
@@ -91,7 +92,9 @@
                             <Button Name="FavouritesButton" Margin="15" Grid.Column="4" Width="110" Content="Favourites" 
                                     Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
 
-                            <Button Name="CloseButton" Margin="15" Grid.Column="5" Width="110" HorizontalAlignment="Center" Content="Close (X)" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button Name="MinimizeButton" Margin="15 15 0 15" Grid.Column="5" Width="40" HorizontalAlignment="Center" Content="_" Click="MinimizeButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+
+                            <Button Name="CloseButton" Margin="0 15 15 15" Grid.Column="6" Width="40" HorizontalAlignment="Center" Content="X" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
                         </Grid>
                     </materialDesign:Card>
                 </materialDesign:TransitioningContent>
