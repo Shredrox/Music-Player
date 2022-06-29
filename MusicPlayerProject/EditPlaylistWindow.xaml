@@ -27,17 +27,46 @@
             <ColumnDefinition Width="175"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Name="PlaylistName" Text="Name: " VerticalAlignment="Center"
-                   HorizontalAlignment="Center"  Grid.Row="0" Foreground="White" FontSize="25" 
-                   Grid.Column="0" Height="40"/>
+        <TextBlock 
+            Name="PlaylistName" 
+            Text="Name: " 
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"  
+            Grid.Row="0"
+            Foreground="White"
+            FontSize="25" 
+            Grid.Column="0" 
+            Height="40"/>
 
-        <TextBox Name="NameEditBox" Grid.Column="1" Grid.Row="0" Height="30" Width="150" 
-                 Foreground="White" Background="#FF423C3C"/>
+        <TextBox 
+            Name="NameEditBox" 
+            Grid.Column="1" 
+            Grid.Row="0" 
+            Height="30" 
+            Width="150" 
+            Foreground="White" 
+            Background="#FF423C3C"/>
 
-        <Button Name="CancelButton" Content="Cancel" Width="90" Grid.Row="1" Grid.Column="0" 
-                Background="#FF2C2F33" BorderBrush="#FF23272A" Click="CancelButton_Click"/>
+        <Button 
+            Name="CancelButton" 
+            Content="Cancel" 
+            Width="90"
+            Grid.Row="1"
+            Grid.Column="0" 
+            Background="#FF2C2F33" 
+            BorderBrush="#FF23272A" 
+            Click="CancelButton_Click"/>
 
-        <Button Name="OKButton" Content="OK" Margin="10" Grid.Row="1" Grid.Column="1" Width="90" 
-                Background="#FF2C2F33" BorderBrush="#FF23272A" Click="OKButton_Click"/>
+        <Button 
+            Name="OKButton"
+            Content="OK" 
+            Margin="10"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="90" 
+            Background="#FF2C2F33" 
+            BorderBrush="#FF23272A" 
+            Click="OKButton_Click"/>
+        
     </Grid>
 </Window>

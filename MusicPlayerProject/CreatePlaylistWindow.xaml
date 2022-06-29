@@ -25,35 +25,99 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Creating Playlist" Grid.Row="0" Foreground="White"
-                   VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="26"/>
+        <TextBlock 
+            Text="Creating Playlist" 
+            Grid.Row="0" 
+            Foreground="White"
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center" 
+            FontSize="26"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Width="500">
-            <TextBlock Name="Songs" Text="Songs: " Margin="167,10,10,10" Height="30" Width="65" Foreground="White" 
-                       FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-            <Button Name="AddSongsButton" Content="Add Songs" Width="100" HorizontalAlignment="Center" 
-                    Background="#FF2C2F33" BorderBrush="#FF23272A" Click="AddSongsButton_Click"/>
-        </StackPanel>
-        
-        <ListBox Name="PlaylistSongsListBox" Grid.Row="2" Width="450" 
-                 Height="300" Margin="10" Background="#FF2C2F33" Foreground="#DDFFFFFF">
+        <StackPanel 
+            Orientation="Horizontal" 
+            Grid.Row="1"
+            Width="500">
             
+            <TextBlock 
+                Name="Songs" 
+                Text="Songs: " 
+                Margin="167,10,10,10" 
+                Height="30" 
+                Width="65" 
+                Foreground="White" 
+                FontSize="20" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"/>
+
+            <Button 
+                Name="AddSongsButton" 
+                Content="Add Songs" 
+                Width="100" 
+                HorizontalAlignment="Center" 
+                Background="#FF2C2F33" 
+                BorderBrush="#FF23272A"
+                Click="AddSongsButton_Click"/>
+            
+        </StackPanel>
+
+        <ListBox 
+            Name="PlaylistSongsListBox" 
+            Grid.Row="2" 
+            Width="450" 
+            Height="300" 
+            Margin="10" 
+            Background="#FF2C2F33" 
+            Foreground="#DDFFFFFF">
         </ListBox>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Height="50">
-            <TextBlock Name="PlaylistName" Text="Playlist Name: " Margin="80,10,10,10" Height="30" Foreground="White" 
-                       FontSize="20" VerticalAlignment="Center"/>
+        <StackPanel 
+            Orientation="Horizontal" 
+            Grid.Row="3" 
+            Height="50">
+            
+            <TextBlock
+                Name="PlaylistName" 
+                Text="Playlist Name: " 
+                Margin="80,10,10,10" 
+                Height="30" 
+                Foreground="White" 
+                FontSize="20" 
+                VerticalAlignment="Center"/>
 
-            <TextBox Name="NewPlaylistName" Width="200" Height="30" Margin="10" Foreground="White" Background="#FF423C3C"/>
+            <TextBox 
+                Name="NewPlaylistName" 
+                Width="200" 
+                Height="30" 
+                Margin="10" 
+                Foreground="White" 
+                Background="#FF423C3C"/>
+            
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Height="50">
-            <Button Name="CancelButton" Content="Cancel" Margin="90,10,10,10"
-                Grid.Row="2" Width="150" Background="#FF2C2F33" BorderBrush="#FF23272A" Click="CancelButton_Click"/>
+        <StackPanel 
+            Orientation="Horizontal" 
+            Grid.Row="4" 
+            Height="50">
+            
+            <Button 
+                Name="CancelButton" 
+                Content="Cancel" 
+                Margin="90,10,10,10"
+                Grid.Row="2" 
+                Width="150" 
+                Background="#FF2C2F33"
+                BorderBrush="#FF23272A" 
+                Click="CancelButton_Click"/>
 
-            <Button Name="CreatePlaylistButton" Content="Create Playlist: " Margin="10"
-                Grid.Row="2" Width="150" Background="#FF2C2F33" BorderBrush="#FF23272A" Click="CreatePlaylistButton_Click"/>
+            <Button 
+                Name="CreatePlaylistButton" 
+                Content="Create Playlist: " 
+                Margin="10"
+                Grid.Row="2" 
+                Width="150" 
+                Background="#FF2C2F33" 
+                BorderBrush="#FF23272A" 
+                Click="CreatePlaylistButton_Click"/>
 
         </StackPanel>
     </Grid>

@@ -34,7 +34,12 @@
     </Window.Resources>
 
     <Border BorderBrush="White" BorderThickness="1" CornerRadius="8">
-        <materialDesign:Card Margin="10" UniformCornerRadius="20" Grid.Column="0" Grid.ColumnSpan="2">
+        <materialDesign:Card 
+            Margin="10" 
+            UniformCornerRadius="20" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="2">
+            
             <materialDesign:Card.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="#121212" Offset="1"/>
@@ -54,8 +59,20 @@
                     <ColumnDefinition Width="605"/>
                 </Grid.ColumnDefinitions>
 
-                <materialDesign:TransitioningContent Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop,Duration=0:0:1}">
-                    <materialDesign:Card Grid.Row="0" Grid.Column="1" UniformCornerRadius="20" HorizontalAlignment="Center" Height="65" Width="805">
+                <materialDesign:TransitioningContent 
+                    Grid.Row="0" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2" 
+                    OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop,Duration=0:0:1}">
+                    
+                    <materialDesign:Card 
+                        Grid.Row="0" 
+                        Grid.Column="1" 
+                        UniformCornerRadius="20" 
+                        HorizontalAlignment="Center" 
+                        Height="65" 
+                        Width="805">
+                        
                         <materialDesign:Card.Background>
                             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                 <GradientStop Color="Black" Offset="0"/>
@@ -80,27 +97,86 @@
                                 </Ellipse.Fill>
                             </Ellipse>
 
-                            <Button x:Name="LoadSongsButton" Margin="10" Grid.Column="1" Width="110" Content="Load Songs" 
-                                    Click="LoadSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button 
+                                x:Name="LoadSongsButton" 
+                                Margin="10" 
+                                Grid.Column="1" 
+                                Width="110" 
+                                Content="Load Songs" 
+                                Click="LoadSongsButton_Click" 
+                                Background="#FF2C2F33" 
+                                BorderBrush="#FF23272A"/>
 
-                            <Button x:Name="LoadedSongsButton" Margin="10" Grid.Column="2" Width="130" Content="Loaded Songs" 
-                                    Click="LoadedSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button 
+                                x:Name="LoadedSongsButton" 
+                                Margin="10" 
+                                Grid.Column="2" 
+                                Width="130" 
+                                Content="Loaded Songs" 
+                                Click="LoadedSongsButton_Click" 
+                                Background="#FF2C2F33" 
+                                BorderBrush="#FF23272A"/>
                             
-                            <Button x:Name="AddSongsButton" Margin="10" Grid.Column="3" Width="110" Content="Add Songs" 
-                                    Click="AddSongsButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button 
+                                x:Name="AddSongsButton" 
+                                Margin="10" 
+                                Grid.Column="3" 
+                                Width="110" 
+                                Content="Add Songs" 
+                                Click="AddSongsButton_Click" 
+                                Background="#FF2C2F33" 
+                                BorderBrush="#FF23272A"/>
 
-                            <Button Name="FavouritesButton" Margin="15" Grid.Column="4" Width="110" Content="Favourites" 
-                                    Click="FavouritesButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button 
+                                Name="FavouritesButton" 
+                                Margin="15" 
+                                Grid.Column="4" 
+                                Width="110" 
+                                Content="Favourites" 
+                                Click="FavouritesButton_Click" 
+                                Background="#FF2C2F33" 
+                                BorderBrush="#FF23272A"/>
 
-                            <Button Name="MinimizeButton" Margin="15 15 0 15" Grid.Column="5" Width="40" HorizontalAlignment="Center" Content="_" Click="MinimizeButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button 
+                                Name="MinimizeButton" 
+                                Margin="15 15 0 15" 
+                                Grid.Column="5" 
+                                Width="40" 
+                                HorizontalAlignment="Center" 
+                                Content="_" 
+                                Click="MinimizeButton_Click" 
+                                Background="#FF2C2F33" 
+                                BorderBrush="#FF23272A"/>
 
-                            <Button Name="CloseButton" Margin="0 15 15 15" Grid.Column="6" Width="40" HorizontalAlignment="Center" Content="X" Click="CloseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A"/>
+                            <Button 
+                                Name="CloseButton" 
+                                Margin="0 15 15 15" 
+                                Grid.Column="6" 
+                                Width="40" 
+                                HorizontalAlignment="Center" 
+                                Content="X" 
+                                Click="CloseButton_Click" 
+                                Background="#FF2C2F33" 
+                                BorderBrush="#FF23272A"/>
+                            
                         </Grid>
                     </materialDesign:Card>
                 </materialDesign:TransitioningContent>
 
-                <materialDesign:TransitioningContent Grid.Row="1" Grid.Column="0" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop,Duration=0:0:1}">
-                    <materialDesign:Card Margin="10,0,0,0" Grid.Row="1" Grid.Column="0" UniformCornerRadius="20" HorizontalAlignment="Center" Height="516" Width="210">
+                <materialDesign:TransitioningContent 
+                    Grid.Row="1" 
+                    Grid.Column="0" 
+                    OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop,Duration=0:0:1}">
+                    
+                    <materialDesign:Card 
+                        Margin="10,0,0,0" 
+                        Grid.Row="1" 
+                        Grid.Column="0" 
+                        UniformCornerRadius="20" 
+                        HorizontalAlignment="Center" 
+                        Height="516" 
+                        Width="210">
+                        
                         <materialDesign:Card.Background>
                             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                 <GradientStop Color="Black" Offset="0"/>
@@ -109,10 +185,32 @@
                         </materialDesign:Card.Background>
 
                         <StackPanel Orientation="Vertical">
-                            <Button Name="CreatePlaylistButton" Content="Create Playlist" Margin="0,10,0,0" HorizontalAlignment="Center" 
-                                    Width="122" Background="#FF2C2F33" BorderBrush="#FF23272A" Click="CreatePlaylistButton_Click"/>
-                            <TextBlock Text="Playlists" Margin="10" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Lato Light"/>
-                            <ListBox Name="PlaylistsListBox" Width="185" Height="400" Margin="10" Foreground="#DDFFFFFF" MouseLeftButtonUp="PlaylistsListBox_MouseLeftButtonUp">
+                            <Button 
+                                Name="CreatePlaylistButton" 
+                                Content="Create Playlist" 
+                                Margin="0,10,0,0" 
+                                HorizontalAlignment="Center" 
+                                Width="122" 
+                                Background="#FF2C2F33" 
+                                BorderBrush="#FF23272A" 
+                                Click="CreatePlaylistButton_Click"/>
+                            
+                            <TextBlock 
+                                Text="Playlists" 
+                                Margin="10" 
+                                HorizontalAlignment="Center" 
+                                Foreground="#DDFFFFFF" 
+                                FontSize="25" 
+                                FontFamily="Lato Light"/>
+                            
+                            <ListBox 
+                                Name="PlaylistsListBox" 
+                                Width="185" 
+                                Height="400" 
+                                Margin="10" 
+                                Foreground="#DDFFFFFF" 
+                                MouseLeftButtonUp="PlaylistsListBox_MouseLeftButtonUp">
+                                
                                 <ListBox.Resources>
                                     <Style x:Key="DeleteItemContextMenuStyle" TargetType="MenuItem">
                                         <EventSetter Event="Click" Handler="DeleteMenuItem_Click"/>
@@ -165,41 +263,101 @@
                     </materialDesign:Card>
                 </materialDesign:TransitioningContent>
                 
-                <materialDesign:TransitioningContent Grid.Row="1" Grid.Column="1" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight,Duration=0:0:1}">
-                    <materialDesign:Card Margin="10,0,10,0" Grid.Row="1" Grid.Column="1" UniformCornerRadius="20" Height="516" Width="575">
+                <materialDesign:TransitioningContent 
+                    Grid.Row="1"
+                    Grid.Column="1" 
+                    OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight,Duration=0:0:1}">
+                    
+                    <materialDesign:Card 
+                        Margin="10,0,10,0" 
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        UniformCornerRadius="20" 
+                        Height="516" 
+                        Width="575">
+                        
                         <materialDesign:Card.Background>
                             <LinearGradientBrush EndPoint="0,1.5" StartPoint="0.5,0">
                                 <GradientStop Color="#FF2C2F33" Offset="0"/>
                                 <GradientStop Color="Black" Offset="0.885"/>
                             </LinearGradientBrush>
                         </materialDesign:Card.Background>
+                        
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="45"/>
                                 <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Name="CurrentPlaylistText" Text="Current Playlist" Height="30" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="25" FontFamily="Lato Light" />
-                            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
-                                <ListBox Name="Playlist" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseDoubleClick="Playlist_MouseDoubleClick">
+                            <TextBlock 
+                                Name="CurrentPlaylistText" 
+                                Text="Current Playlist" 
+                                Height="30" 
+                                HorizontalAlignment="Center" 
+                                Foreground="#DDFFFFFF" 
+                                FontSize="25" 
+                                FontFamily="Lato Light" />
+                            
+                            <ScrollViewer 
+                                VerticalAlignment="Stretch" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalScrollBarVisibility="Auto" 
+                                HorizontalScrollBarVisibility="Disabled" 
+                                Grid.Row="1">
+                                
+                                <ListBox 
+                                    Name="Playlist" 
+                                    ScrollViewer.CanContentScroll="True" 
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                                    MouseDoubleClick="Playlist_MouseDoubleClick">
+                                    
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=ExpandIn}" OpeningEffectsOffset="{materialDesign:IndexedItemOffsetMultiplier 0:0:0.05}">
+                                            <materialDesign:TransitioningContent 
+                                                OpeningEffect="{materialDesign:TransitionEffect Kind=ExpandIn}" 
+                                                OpeningEffectsOffset="{materialDesign:IndexedItemOffsetMultiplier 0:0:0.05}">
+                                                
                                                 <DockPanel>
                                                     <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5">
+                                                        
                                                         <Ellipse Name="AlbumArtEllipse" Height="50" Width="50">
                                                             <Ellipse.Fill>
                                                                 <ImageBrush ImageSource="{Binding Brush}" Stretch="UniformToFill"/>
                                                             </Ellipse.Fill>
                                                         </Ellipse>
-                                                        <TextBlock Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20">
-                                                    <Hyperlink NavigateUri="{Binding Path=Text, ElementName=Link}" RequestNavigate="Hyperlink_RequestNavigate">
-                                                        <TextBlock Text="{Binding Artist}"/>
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                                        <TextBlock Text="{Binding Title}" Margin="10" VerticalAlignment="Center" FontFamily="Ebrima" Foreground="White" FontSize="20"/>
+                                                        
+                                                        <TextBlock 
+                                                            Margin="10" 
+                                                            VerticalAlignment="Center" 
+                                                            FontFamily="Ebrima" 
+                                                            Foreground="White" 
+                                                            FontSize="20">
+                                                            
+                                                            <Hyperlink 
+                                                                NavigateUri="{Binding Path=Text, ElementName=Link}" 
+                                                                RequestNavigate="Hyperlink_RequestNavigate">
+                                                                
+                                                                <TextBlock Text="{Binding Artist}"/>
+                                                            </Hyperlink>
+                                                        </TextBlock>
+                                                        
+                                                        <TextBlock 
+                                                            Text="{Binding Title}" 
+                                                            Margin="10" 
+                                                            VerticalAlignment="Center" 
+                                                            FontFamily="Ebrima" 
+                                                            Foreground="White" 
+                                                            FontSize="20"/>
+                                                        
                                                     </StackPanel>
-                                                    <materialDesign:PackIcon Margin="0,5,0,0" Kind="PlayCircle" VerticalAlignment="Center" Foreground="White" DockPanel.Dock="Right"/>
+                                                    
+                                                    <materialDesign:PackIcon 
+                                                        Margin="0,5,0,0" 
+                                                        Kind="PlayCircle" 
+                                                        VerticalAlignment="Center" 
+                                                        Foreground="White" 
+                                                        DockPanel.Dock="Right"/>
+                                                    
                                                 </DockPanel>
                                             </materialDesign:TransitioningContent>
                                         </DataTemplate>
@@ -210,8 +368,22 @@
                     </materialDesign:Card>
                 </materialDesign:TransitioningContent>
 
-                <materialDesign:TransitioningContent Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromBottom,Duration=0:0:1}">
-                    <materialDesign:Card Margin="10,10,10,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" UniformCornerRadius="20" HorizontalAlignment="Center" Height="225" Width="805">
+                <materialDesign:TransitioningContent 
+                    Grid.Row="2" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2" 
+                    OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromBottom,Duration=0:0:1}">
+                    
+                    <materialDesign:Card 
+                        Margin="10,10,10,0" 
+                        Grid.Row="2" 
+                        Grid.Column="0" 
+                        Grid.ColumnSpan="2" 
+                        UniformCornerRadius="20" 
+                        HorizontalAlignment="Center" 
+                        Height="225" 
+                        Width="805">
+                        
                         <materialDesign:Card.Background>
                             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                 <GradientStop Color="#FF23272A" Offset="0"/>
@@ -227,7 +399,14 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <materialDesign:Card Margin="10" Grid.Column="0" Height="200" Width="200" Background="#FF343940" UniformCornerRadius="10">
+                            <materialDesign:Card 
+                                Margin="10" 
+                                Grid.Column="0" 
+                                Height="200"
+                                Width="200"
+                                Background="#FF343940"
+                                UniformCornerRadius="10">
+                                
                                 <Border CornerRadius="8">
                                     <Border.Background>
                                         <ImageBrush x:Name="AlbumArt"/>
@@ -235,13 +414,47 @@
                                 </Border>
                             </materialDesign:Card>
 
-                            <StackPanel Margin="0,10,0,10" Grid.Column="1" Width="500" Orientation="Vertical">
-                                <MediaElement Name="MusicPlayer" LoadedBehavior="Manual" MediaEnded="MusicPlayer_MediaEnded"/>
-                                <TextBlock Width="0" Height="0" Text="NE ZNAM KAK RABOTI TVA" Name="Link"/>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock Name="SongSpeed" Text="Song Speed:" Margin="0,15,8,15" VerticalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Bahnschrift Light" FontSize="14"/>
+                            <StackPanel 
+                                Margin="0,10,0,10" 
+                                Grid.Column="1" 
+                                Width="500" 
+                                Orientation="Vertical">
+                                
+                                <MediaElement 
+                                    Name="MusicPlayer" 
+                                    LoadedBehavior="Manual" 
+                                    MediaEnded="MusicPlayer_MediaEnded"/>
+                                
+                                <TextBlock 
+                                    Width="0" 
+                                    Height="0"
+                                    Name="Link"/>
+                                
+                                <StackPanel 
+                                    Orientation="Horizontal" 
+                                    HorizontalAlignment="Center">
+                                    
+                                    <TextBlock 
+                                        Name="SongSpeed" 
+                                        Text="Song Speed:" 
+                                        Margin="0,15,8,15" 
+                                        VerticalAlignment="Center" 
+                                        Foreground="#DDFFFFFF" 
+                                        FontFamily="Bahnschrift Light" 
+                                        FontSize="14"/>
+                                    
                                     <materialDesign:Card Background="{x:Null}" Width="25" Height="40">
-                                        <TextBlock Text="{Binding Path=Value, ElementName=SpeedSlider}" HorizontalAlignment="Center" Padding="3" VerticalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Bahnschrift Light" FontSize="14" Width="auto" Height="20">
+                                        <TextBlock 
+                                            Text="{Binding Path=Value, ElementName=SpeedSlider}" 
+                                            HorizontalAlignment="Center" 
+                                            Padding="3" 
+                                            VerticalAlignment="Center" 
+                                            Foreground="#DDFFFFFF" 
+                                            FontFamily="Bahnschrift Light"
+                                            FontSize="14" 
+                                            Width="auto"
+                                            Height="20">
+                                            
                                             <TextBlock.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                                     <GradientStop Color="#23272A "/>
@@ -251,54 +464,163 @@
                                         </TextBlock>
                                     </materialDesign:Card>
 
-                                    <Slider x:Name="SpeedSlider" Width="150" Margin="14,15,0,8" VerticalAlignment="Center" Minimum="0.5" Value="1" Maximum="2" 
-                                    ValueChanged="SpeedSlider_ValueChanged" TickPlacement="BottomRight"
-                                    TickFrequency="0.5" IsSnapToTickEnabled="True"
-                                    BorderBrush="#FF23272A" Foreground="#2F7AE5"/>
+                                    <Slider 
+                                        x:Name="SpeedSlider" 
+                                        Width="150" 
+                                        Margin="14,15,0,8" 
+                                        VerticalAlignment="Center" 
+                                        Minimum="0.5" 
+                                        Value="1" 
+                                        Maximum="2" 
+                                        ValueChanged="SpeedSlider_ValueChanged" 
+                                        TickPlacement="BottomRight"
+                                        TickFrequency="0.5" IsSnapToTickEnabled="True"
+                                        BorderBrush="#FF23272A" Foreground="#2F7AE5"/>
 
-                                    <Button Name="FavouriteButton" Margin="17,0,0,0" Width="60" Height="30" Click="FavouriteButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                    <Button 
+                                        Name="FavouriteButton" 
+                                        Margin="17,0,0,0" 
+                                        Width="60" 
+                                        Height="30" 
+                                        Click="FavouriteButton_Click" 
+                                        Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                        
                                         <DynamicResource ResourceKey="HeartOutline"/>
                                     </Button>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
-                                    <TextBlock Name="SongArtistName" VerticalAlignment="Center" Foreground="White" FontSize="20"/>
-                                    <TextBlock Name="SongName" VerticalAlignment="Center" FontSize="20" Foreground="#DDFFFFFF"/>
+                                <StackPanel 
+                                    Orientation="Horizontal" 
+                                    Margin="0,30,0,0" 
+                                    HorizontalAlignment="Center">
+                                    
+                                    <TextBlock 
+                                        Name="SongArtistName" 
+                                        VerticalAlignment="Center" 
+                                        Foreground="White" 
+                                        FontSize="20"/>
+                                    
+                                    <TextBlock 
+                                        Name="SongName" 
+                                        VerticalAlignment="Center" 
+                                        FontSize="20" 
+                                        Foreground="#DDFFFFFF"/>
+                                    
                                 </StackPanel>
 
-                                <TextBlock Name="SongTimer" Text="00:00" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontSize="14" FontFamily="Fugaz One"/>
+                                <TextBlock 
+                                    Name="SongTimer" 
+                                    Text="00:00" 
+                                    HorizontalAlignment="Center"
+                                    Foreground="#DDFFFFFF"
+                                    FontSize="14"
+                                    FontFamily="Fugaz One"/>
 
-                                <Slider Name="SongDuration" Width="360" HorizontalAlignment="Center" MouseDown="SongDuration_MouseDown" Thumb.DragStarted="SongDuration_DragStarted" 
-                                    Thumb.DragCompleted="SongDuration_DragCompleted"  ValueChanged="SongDuration_ValueChanged" 
-                                    Margin="0,0,0,10" Minimum="0" Maximum="100"
-                                    Background="#FF2C2F33" BorderBrush="#FF23272A" Foreground="#2F7AE5">
+                                <Slider 
+                                    Name="SongDuration" 
+                                    Width="360" 
+                                    HorizontalAlignment="Center"
+                                    MouseDown="SongDuration_MouseDown" 
+                                    Thumb.DragStarted="SongDuration_DragStarted" 
+                                    Thumb.DragCompleted="SongDuration_DragCompleted"  
+                                    ValueChanged="SongDuration_ValueChanged" 
+                                    Margin="0,0,0,10" 
+                                    Minimum="0" 
+                                    Maximum="100"
+                                    Background="#FF2C2F33" 
+                                    BorderBrush="#FF23272A" 
+                                    Foreground="#2F7AE5">
                                 </Slider>
 
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Name="RepeatButton" Height="26" Width="60" Click="RepeatButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                <StackPanel 
+                                    Orientation="Horizontal" 
+                                    HorizontalAlignment="Center">
+                                    
+                                    <Button 
+                                        Name="RepeatButton" 
+                                        Height="26" 
+                                        Width="60" 
+                                        Click="RepeatButton_Click" 
+                                        Background="#FF2C2F33" 
+                                        BorderBrush="#FF23272A">
+                                        
                                         <DynamicResource ResourceKey="Repeat"/>
                                     </Button>
-                                    <Button Name="SkipPreviousButton" Margin="10,0,10,0" Width="60" Click="SkipPreviousButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                    
+                                    <Button 
+                                        Name="SkipPreviousButton" 
+                                        Margin="10,0,10,0" 
+                                        Width="60" 
+                                        Click="SkipPreviousButton_Click" 
+                                        Background="#FF2C2F33" 
+                                        BorderBrush="#FF23272A">
+                                        
                                         <DynamicResource ResourceKey="SkipPrevious"/>
                                     </Button>
 
-                                    <Button Name="PlayPauseButton" Height="36" Width="60" Click="PlayPauseButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                    <Button 
+                                        Name="PlayPauseButton" 
+                                        Height="36" 
+                                        Width="60" 
+                                        Click="PlayPauseButton_Click" 
+                                        Background="#FF2C2F33" 
+                                        BorderBrush="#FF23272A">
+                                        
                                         <DynamicResource ResourceKey="Pause"/>
                                     </Button>
-                                    <Button Name="SkipNextButton" Margin="10,0,10,0" Width="60" Click="SkipNextButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                    
+                                    <Button 
+                                        Name="SkipNextButton" 
+                                        Margin="10,0,10,0" 
+                                        Width="60" 
+                                        Click="SkipNextButton_Click" 
+                                        Background="#FF2C2F33" 
+                                        BorderBrush="#FF23272A">
+                                        
                                         <DynamicResource ResourceKey="SkipNext"/>
                                     </Button>
 
-                                    <Button Name="ShuffleButton" Height="26" Width="60" Click="ShuffleButton_Click" Background="#FF2C2F33" BorderBrush="#FF23272A">
+                                    <Button 
+                                        Name="ShuffleButton" 
+                                        Height="26" 
+                                        Width="60" 
+                                        Click="ShuffleButton_Click" 
+                                        Background="#FF2C2F33" 
+                                        BorderBrush="#FF23272A">
+                                        
                                         <DynamicResource ResourceKey="Shuffle"/>
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Grid.Column="2" Width="65" Height="220" VerticalAlignment="Center" Margin="10,10,10,10" Orientation="Vertical">
-                                <Slider Name="VolumeSlider" Value="0.5" HorizontalAlignment="Center" Margin="15,22,15,10" Minimum="0" Maximum="1" Orientation="Vertical" 
-                                        Height="160" ValueChanged="Slider_ValueChanged" BorderBrush="#FF23272A" Foreground="#2F7AE5"/>
-                                <materialDesign:PackIcon HorizontalAlignment="Center" Kind="Audio" Foreground="#DDFFFFFF" Height="25" Width="25"/>
+                            <StackPanel 
+                                Grid.Column="2" 
+                                Width="65" 
+                                Height="220" 
+                                VerticalAlignment="Center" 
+                                Margin="10,10,10,10" 
+                                Orientation="Vertical">
+                                
+                                <Slider 
+                                    Name="VolumeSlider" 
+                                    Value="0.5" 
+                                    HorizontalAlignment="Center" 
+                                    Margin="15,22,15,10" 
+                                    Minimum="0" 
+                                    Maximum="1" 
+                                    Orientation="Vertical" 
+                                    Height="160" 
+                                    ValueChanged="Slider_ValueChanged" 
+                                    BorderBrush="#FF23272A" 
+                                    Foreground="#2F7AE5"/>
+                                
+                                <materialDesign:PackIcon 
+                                    HorizontalAlignment="Center" 
+                                    Kind="Audio" 
+                                    Foreground="#DDFFFFFF" 
+                                    Height="25" 
+                                    Width="25"/>
+                                
                             </StackPanel>
                         </Grid>
                     </materialDesign:Card>
